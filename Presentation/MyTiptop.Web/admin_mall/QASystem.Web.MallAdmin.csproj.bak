@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{449E849A-E852-4FB2-8F1B-CF8267744B4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QASystem.Web.MallAdmin</RootNamespace>
+    <AssemblyName>QASystem.Web.MallAdmin</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\..\Users\000084150\Documents\Visual Studio 2015\Projects\Xamarin1\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Users\000084150\Documents\Visual Studio 2015\Projects\Xamarin1\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+	<Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AreaRegistration.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\a.jpg" />
+    <Content Include="images\add.jpg" />
+    <Content Include="images\bg.jpg" />
+    <Content Include="images\bottombg.jpg" />
+    <Content Include="images\bt_right.jpg" />
+    <Content Include="images\cancel.jpg" />
+    <Content Include="images\delete.jpg" />
+    <Content Include="images\delete2.gif" />
+    <Content Include="images\edit.jpg" />
+    <Content Include="images\goback.jpg" />
+    <Content Include="images\ico1.jpg" />
+    <Content Include="images\li.jpg" />
+    <Content Include="images\li1.jpg" />
+    <Content Include="images\logo.jpg" />
+    <Content Include="images\menubg.jpg" />
+    <Content Include="images\menubg_bottom.jpg" />
+    <Content Include="images\menubg_top.jpg" />
+    <Content Include="images\menuli_bg.jpg" />
+    <Content Include="images\menuli_bg_hot.jpg" />
+    <Content Include="images\nav_bg_hot.jpg" />
+    <Content Include="images\progressbar.gif" />
+    <Content Include="images\refresh.jpg" />
+    <Content Include="images\right_ico.jpg" />
+    <Content Include="images\s.jpg" />
+    <Content Include="images\search1.gif" />
+    <Content Include="images\selectbg.gif" />
+    <Content Include="images\selectbgico.gif" />
+    <Content Include="images\submit.jpg" />
+    <Content Include="images\tagbg-left.jpg" />
+    <Content Include="images\tagbg.jpg" />
+    <Content Include="images\tip.gif" />
+    <Content Include="images\top_bg.jpg" />
+    <Content Include="images\tree_close.gif" />
+    <Content Include="images\tree_open.gif" />
+    <Content Include="scripts\excanvas.js" />
+    <Content Include="scripts\jquery.flot.js" />
+    <Content Include="scripts\jquery.flot.pie.js" />
+    <Content Include="scripts\jquery.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\product.js" />
+    <Content Include="scripts\region.js" />
+    <Content Include="scripts\selectlist.js" />
+    <Content Include="scripts\showlist.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Core\QASystem.Core.csproj">
+      <Project>{2d71ebca-5f56-4057-988f-fff948b63a3c}</Project>
+      <Name>QASystem.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Date\QASystem.Data.csproj">
+      <Project>{783d2938-b359-4914-b638-52ee4ecf6551}</Project>
+      <Name>QASystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Services\QASystem.Services.csproj">
+      <Project>{66c55add-692d-4324-a8bd-550dd48423f8}</Project>
+      <Name>QASystem.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QASystem.Web.Framework\QASystem.Web.Framework.csproj">
+      <Project>{92b4fb7a-cdd2-4cba-a3d6-69483c8cda1c}</Project>
+      <Name>QASystem.Web.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Views\Home\mallruninfo.cshtml" />
+    <None Include="Views\Home\menu.cshtml" />
+    <None Include="Views\Home\navbar.cshtml" />
+    <None Include="Views\User\add.cshtml" />
+    <None Include="Views\User\edit.cshtml" />
+    <None Include="Views\User\edit2.cshtml" />
+    <None Include="Views\User\List.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,107 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.ImportEquipmentViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>导入数据</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+</head>
+<body>
+    <h1 class="rightH1">
+        设备管理 &gt;&gt; 导入数据
+        <div class="right">
+            @*<a href="@Url.Action("statusadd")" class="menuBT"><img src="/admin_mall/images/add.jpg" />添加</a>*@
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm("Upload", "Equipment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;选择文件(xlsx)：
+                        </td>
+                        <td width="110">
+                            <input type="file" name="file"     style="width:300px;" />
+                        </td>
+                        <td />                         
+                        <td width="110">
+                        </td>
+                        <td /> 
+                        <td width="130" />
+                        <td />
+                        <td width="130" /> 
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dataList">
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="140">编码</th>
+                        <th align="left">类型</th>
+                        <th align="left">IP</th>
+                        <th align="left">存放地址</th>
+                        <th align="left">部门</th>
+                        <th align="left">用户姓名</th>
+                        <th align="left">状态</th>
+                        <th align="left">品牌</th>
+                        <th align="left">型号</th>
+                        <th align="left">备注</th>
+
+                    </tr>
+                </thead>
+                <tbody name="table">
+                    @foreach (System.Data.DataRow row in Model.List.Rows) 
+                    { 
+                        <tr> 
+                            <td></td>
+                            <td>@row[0] @Html.Hidden("Ecode", @row[0])</td>
+                            <td>@row[1] @Html.Hidden("SortID", @row[1])</td>
+                            <td>@row[2] @Html.Hidden("IP", @row[2])</td>
+                            <td>@row[3] @Html.Hidden("Place", @row[3])</td>
+                            <td>@row[4] @Html.Hidden("DeptID", @row[4])</td>
+                            <td>@row[5] @Html.Hidden("UserName", @row[5])</td>
+                            <td>@row[6] @Html.Hidden("StatusID", @row[6])</td>
+                            <td>@row[7] @Html.Hidden("Brand", @row[7])</td>
+                            <td>@row[8] @Html.Hidden("Version", @row[8])</td>
+                            <td>@row[9] @Html.Hidden("Remark", @row[9])</td>
+                        </tr> 
+                    } 
+                </tbody>
+
+            </table>
+        </div>
+ 
+        <div class="dataListEdit">
+          
+            <a href="#" delUrl="@Url.Action("Import")" class="batch change">确认提交</a>  
+            <div class="page">
+                @*@Html.MallAdminPager(Model.PageModel)*@
+            </div>
+        </div>
+    }
+
+@Html.Partial("_footer")
+
+</body>
+</html>

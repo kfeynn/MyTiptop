@@ -1,0 +1,108 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.RoleListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色列表</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+
+
+    <script type="text/javascript">
+    $(function () {
+        $("#table>tbody>tr").click(function () {
+
+            $(this).addClass('selected') //为选中项添加高亮
+            .siblings().removeClass('selected')//去除其他项的高亮形式
+            .end();
+        });
+    });
+    </script>
+
+</head>
+<body>
+    <h1 class="rightH1">
+        角色管理 &gt;&gt; 角色列表
+        <div class="right">
+            <a href="@Url.Action("add")" class="menuBT"><img src="../../admin_mall/images/add.jpg" />添加</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm("list", "role"))
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;角色名：
+                        </td>
+                        <td width="110">
+                            @Html.TextBox("roleName", Model.RoleName, new { height = "18" })
+                        </td>
+                        <td>
+                        </td>
+                        <td width="110">
+                        </td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="dataList">
+            <table   style="width:100%"  >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="180" align="left">角色名称</th>
+                        <th   align="left">备注</th>
+                        <th width="150">编辑</th>
+                        <th width="150">删除</th>
+                        <th width="150">分配权限</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MyTiptop.Core.xpGrid_Role row in Model.Roles)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@row.RoleName</td>
+                            <td>@row.RoleDes</td>
+                            <td>@Html.ActionLink("[编辑]", "edit", new { rid = row.RoleId }, new { @class = "editOperate" })</td>
+                            <td>@Html.ActionLink("[删除]", "delete", new { rid = row.RoleId }, new { @class = "editOperate" , onclick = "if(!confirm('您确认要删除该内容吗?')) return false;" })</td>
+                            <td>@Html.ActionLink("[分配权限]", "roleauthorization", new { rid = row.RoleId }, new { @class = "editOperate" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div >
+        <div class="dataListEdit">
+            <div class="page">
+                @Html.MallAdminPager(Model.PageModel)
+            </div>
+        </div>
+    }
+
+    @*页脚样式*@
+    @Html.Partial("_footer")
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>

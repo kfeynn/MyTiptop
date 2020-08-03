@@ -1,0 +1,318 @@
+﻿@model MyTiptop.Web.Models.RegistrationViewModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Wellcome</title>
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+
+
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/jquery.js")"></script>
+    @*<link type="text/css" rel="stylesheet" href="@Url.Content("~/admin_mall/css/site.css")" />*@
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/Site.css")" />
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/jquery.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/tabhelp.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/showlist.js")"></script>
+
+    @* 智能提示Text *@
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/admin_mall/scripts/jqueryui/jquery-ui.min.css")" />
+    <script src="@Url.Content("~/admin_mall/scripts/jqueryui/jquery-ui.min.js")"></script>
+    <script src="@Url.Content("~/admin_mall/scripts/autocomplete.js")"></script>
+
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+    <script type="text/javascript">
+
+        function submitAction() {
+            //提交表单
+            doPostBack("");
+            return false;
+        }
+
+        //已经有离厂日期的单据，是不是 buneng 不能修改？？
+        function isLeaveAjax(idnumber) {
+            var result;
+            $.ajax({
+                url: "@Url.Content("~/Security/isLeave")",
+                data: {
+                    idNumber: idnumber
+                },
+                dataType: "json",
+                type: "post",
+                async: false,   //取消异步
+                success: function (data, status) {
+                    if (status == "success") {
+                        //处理返回结果
+                        result = data.content;
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+            return result;
+        }
+
+        $(function () {
+            //alert('ee');
+            var ycid = $("input:hidden[name='hid']").val();
+            if (ycid != "") {
+                alert(ycid);
+            }
+
+            $("#idNumber").focus();
+            //更新到访人数
+            $("#data_43").blur(function () {
+                //$("input").css("background-color", "#D6D6FF");
+
+                //更新实际到访人数
+                var idnumber = $("#idNumberBak").val();
+                var data43 = $("#data_43").val();
+                //var isLeave = "0";
+                //没输入值不执行 
+                if (data43.length <= 0) {
+                    return false;
+                }
+                var data = isLeaveAjax(idnumber);
+
+                if (data == "1") {
+                    alert("来访单已经是离厂状态，不能更改");
+                    return false;
+                }
+                //判断 date43 是否为正整数
+                var reg = /^\+?[1-9][0-9]*$/;//非0正整数
+                if (!reg.test(data43)) {
+                    alert("请输入正确来访人数。")
+                    return false;
+                }
+                $.ajax({
+                    url: "@Url.Content("~/Security/updateData_43")",
+                    data: {
+                        //idNumber: request.term //文本输入框的内容
+                        idNumber: idnumber,
+                        data_43: data43
+                    },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data, status) {
+                        if (status == "success") {
+                            //处理返回结果
+                            $('#sdata43').html(data.content);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+
+
+            });
+
+            //更新车牌.失去焦点事件
+            $("#data_45").blur(function () {
+
+                var idnumber = $("#idNumberBak").val();
+                var data45 = $("#data_45").val();
+
+                //没输入值不执行
+                //if (data45.length <= 0) {
+                //    return false;
+                //}
+
+                var data = isLeaveAjax(idnumber);
+
+                if (data == "1") {
+                    alert("来访单已经是离厂状态，不能更改");
+                    return false;
+                }
+
+                $.ajax({
+                    url: "@Url.Content("~/Security/updateData_45")",
+                    data: {
+                        //idNumber: request.term //文本输入框的内容
+                        idNumber: idnumber,
+                        data_45: data45
+                    },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data, status) {
+                        // alert(data.content);
+                        if (status == "success") {
+                            //处理返回结果
+                            $('#sdata45').html(data.content);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            });
+
+            $("#back").click(function () {
+                var url = window.location.href;
+                window.location.href = url;
+            });
+        });
+
+    </script>
+    <style type="text/css">
+
+       table tr{height:32px;}
+      
+    </style>
+</head>
+
+<body>
+    <h1 class="rightH1">
+        门禁 &gt;&gt; 来客访问 
+        <div class="right">
+
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm())
+    {
+        <div class="dataListSearch">
+
+            <input type="hidden" name="hid" id="hid" value="@Model.message" />
+            <table style="width:97%; margin-top:20px">
+                <tr>
+                    <td width="80px;">证件号码</td>
+                    <td>
+                        <input type="text" autofocus="autofocus" placeholder="Scanning Code" class="m-input" style="width:180px;height:30px;"  name="idNumber" id="idNumber" onkeydown="if (event.keyCode == 13) { submitAction() }" />
+                    
+                        <input type="hidden" name="idNumberBak" id="idNumberBak" value="@Model.idNumberBak" />
+                    </td>
+                    <td width="80px;" align="right"><input id="back"  type="button" value="回到首页" /></td>
+                </tr>
+            </table>
+
+        </div>
+        <div data-options="region:'south',border:false" style="background:#f0f0f0;overflow:hidden; margin:10px;">
+           
+        </div>
+
+        <div class="dataList">
+            <table style="width:97%;margin:10px;  border:3px solid  #CECECE  " >
+                <tbody>
+
+                    <tr><th colspan="6" align="center" style="font-size:16px;background-color: snow">深圳格兰达智能装备股份有限公司</th></tr>
+                    @if (Model.model != null)
+                    {
+                        <tr><th colspan="6" align="center" style="font-size:26px;background-color:snow"><span style="font-size:9px; float:left; color:red;">Run_id：@Model.model.run_id</span>来访申请单</th></tr>
+                    }
+                    else
+                    {
+                        <tr><th colspan="6" align="center" style="font-size:26px;background-color:snow">来访申请单</th></tr>
+                    }
+
+                    @if (Model.model != null)
+                    {
+                        <tr>
+                            <th width="120px;">申请人：</th>
+                            <td colspan="3">@Model.model.data_4</td>
+                            <th width="120px;">申请日期:</th>
+                            <td>@Model.model.data_5</td>
+                        </tr>
+                        <tr>
+                            <th>来访时间：</th>
+                            <td colspan="3">@Model.model.data_6 <span style="color:red">(*来访当天有效，过期重新申请)</span></td>
+                            <th>来访类型：</th>
+                            <td>@Model.model.data_36</td>
+                        </tr>
+                        <tr>
+                            <th>来访单位</th>
+                            <td>@Model.model.data_8</td>
+                            <th width="120px;">来访人：</th>
+                            <td>@Model.model.data_9</td>
+                            <th>预计人数:</th>
+                            <td>@{@Model.model.data_38}人</td>
+                            
+                        </tr>
+                        <tr>
+                            <th>来访证件：</th>
+                            <td>@Model.model.data_10</td>
+                            <th>证件号码：</th>
+                            <td colspan="3">@Model.model.data_11</td>
+                        </tr>
+                        <tr>
+                            <th>来访事由:</th>
+                            <td colspan="5">@Model.model.data_12</td>
+                        </tr>
+                        <tr>
+                            <th>自带物品:</th>
+                            <td colspan="5">@Model.model.data_13</td>
+                        </tr>
+                        <tr>
+                            <th>访问部门:</th>
+                            <td>@Model.model.data_14</td>
+                            <th>被访人</th>
+                            <td>@Model.model.data_15</td>
+                            <th>联系电话:</th>
+                            <td>@{@Model.model.data_16}</td>
+                        </tr>
+                        <tr style="height:18px">
+                            <td colspan="6" style="background-color:snow"></td>
+                        </tr>
+                        <tr>
+                            <th>部门经理及以上批准</th>
+                            <td>@Model.model.data_17</td>
+                            <th>签名</th>
+                            <td>@Model.model.data_18</td>
+                            <th>备注：</th>
+                            <td>@Model.model.data_19</td>
+                        </tr>
+                        <tr style="height:18px">
+                            <td colspan="6" style="background-color:snow"></td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">保安确认(进入)</th>
+                            <td>@Model.model.data_41</td>
+                            <td>进厂时间：</td>
+                            <td>@Model.model.data_40</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>来访卡编号：@Model.model.data_44</td>
+                            <th>实际来访人数：</th>
+                            @if (Model.model.data_33 != null && Model.model.data_33.Length > 1)
+                            {
+                                <td>@Model.model.data_43</td>
+                                <td>车牌号：</td>
+                                <td>@Model.model.data_45</td>
+                            }
+                            else
+                            {
+                                <td><input type="text" id="data_43" value="@Model.model.data_43" /><span id="sdata43" style="font-size:9px; color:darkorange">@Model.model.data_43</span></td>
+                                <td>车牌号：</td>
+                                <td><input type="text" id="data_45" value="@Model.model.data_45" onkeyup="updateAction2();" /><span id="sdata45" style="font-size:9px; color:darkorange">@Model.model.data_45</span></td>
+                            }
+                        </tr>
+                        <tr>
+                            <th>保安确认(离厂)</th>
+                            <td colspan="5">离厂时间：@Model.model.data_33</td>
+                         </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+   }
+    @*<div style="width:100%">
+        @Html.Partial("_footer")
+    </div>*@
+
+ 
+
+</body>
+</html>
+

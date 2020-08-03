@@ -1,0 +1,98 @@
+﻿@model MyTiptop.Web.Models.ImgsSaveViewModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Wellcome to use ETSOFT</title>
+    <link rel="stylesheet" type="text/css" href="../Scripts/tiptop/css/metro_mob/easyui_r.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/tiptop/css/icon.css" />
+    <script type="text/javascript" src="../Scripts/tiptop/jquery.min.js"></script>
+    <script type="text/javascript" src="../Scripts/tiptop/jquery.easyui.min.js"></script>
+    @*<script type='text/javascript' src='../Scripts/tiptop/bsfp620.js'></script>*@
+    <script type="text/javascript" src="../admin_mall/scripts/showlist.js"></script>
+    @*<link type="text/css" rel="stylesheet" href="../admin_mall/css/site.css" />*@
+    <script type="text/javascript" src="../admin_mall/scripts/jquery.js"></script>
+
+    @*<script type='text/javascript' src='../dwr/engine.js'></script>
+    <script type='text/javascript' src='../dwr/util.js'></script>
+    <script type='text/javascript' src='../dwr/interface/Azz_Get.js'></script>
+    <script type='text/javascript' src='../dwr/interface/bsfp620_manager.js'></script>*@
+
+    <script type="text/javascript">
+       // alert('eea');
+
+        //弹出提示信息
+        $(function(){
+            //alert('ee');
+            var ycid = $("input:hidden[name='hid']").val();
+            if (ycid != "") {
+                alert(ycid);
+            }
+            //alert('!!!!rrrr!');
+        });
+
+    </script>
+
+</head>
+<body class="easyui-layout" onload="">
+@using (Html.BeginForm("imgssave", "tiptop", FormMethod.Post, new { autocomplete = "off" }))
+{
+    <div data-options="region:'north',border:false" style="overflow:hidden">
+        <div class="panel-header" style="padding:0;border-width:1px 0;text-align:center">
+            <span class="panel-title" style="line-height:32px">重算条码库存</span>
+        </div>
+    </div>
+    <div data-options="region:'center',border:false" style="padding:5px">
+
+        <label>
+            单号(出货、入库、调拨)
+        </label>
+        <input placeholder="单号" class="easyui-input" id="axmtcode" name="axmtcode" size="17" value="@Model.axmtcode" />
+
+        <label>
+            包装票号
+        </label>
+        <input placeholder="barcode" class="easyui-input" id="barcode" name="barcode"   size="17" value="@Model.barcode" />
+
+        
+        <input type="hidden" name="hid" id="hid" value="@Model.message" />
+
+        <input type="submit" name="submit"   value="提交" />
+        <span>@Model.message</span>
+
+    </div>
+   
+    <style scoped=scoped>
+        .panel-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 -1px rgba(0,0,0,0.3);
+        }
+
+        .datagrid-row, .datagrid-header-row {
+            height: 35px;
+        }
+
+        .datagrid-body td {
+            border-right: 1px dotted transparent;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .m-input {
+            height: 26px;
+            line-height: 26px;
+            font-size: 16px;
+            border: 0;
+            width: 100%;
+            background: transparent;
+        }
+    </style>
+}
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    @*<script type="text/javascript" src="../../admin_mall/scripts/jquery-3.1.1.min.js"></script>*@
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <!--miniui-->
+    <script type="text/javascript" src="../../admin_mall/scripts/boot.js"></script>
+    <link href="../../admin_mall/scripts/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="mini-toolbar" style="padding: 2px; border-bottom: 0;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a class="mini-button" iconcls="icon-add" onclick="addRow()" plain="true" tooltip="增加...">增加</a>
+                    <span class="separator"></span> 
+                    <a class="mini-button" iconcls="icon-remove" onclick="removeRow()" plain="true">删除</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-save" plain="true" onclick="saveData()">保存</a> 
+                    <span class="separator"></span>
+                    @*<a class="mini-button" iconcls="icon-reload" onclick="refresh()" plain="true">刷新</a><span class="separator"></span>*@
+                    <a class="mini-button" iconcls="icon-expand" onclick="ExportExcel()" plain="true">导出xlsx</a><span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-expand" href="ImportEquipment" target="" plain="true">导入xlsx</a><span class="separator"></span>
+                    <input  id="ddlstatus" labelField="true" label="状态：" name="Status" showNullItem="true" class="mini-combobox"  url="ddlStatus" value="1" textField="text" valueField="id"  />
+                </td>
+                <td style="white-space: nowrap;">
+                    <label style="font-family: Verdana;">
+                        关键字:
+                    </label>
+                    <input id="key" class="mini-textbox" emptytext="请输入编号或使用人姓名" style="width: 150px;"  onenter="onKeyEnter" />
+                    <a class="mini-button" iconcls="icon-search" plain="true" onclick="search()">查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="mini-fit">
+        <div id="datagrid1" class="mini-datagrid" style="width: 100%; height: 100%;" url="MyDataBing" 
+             idfield="FuncCode" allowresize="true" sizelist="[10,20,100,200,300]" pagesize="10" allowcelledit="true" cellEditAction="celldblclick"  oncellbeginedit="OnCellBeginEdit"
+             allowcellselect="true" editnextonenterkey="true" allowcellvalid="true" multiselect="true"  
+             editnextrowcell="true" allowalternating="true" showcolumnsmenu="false" contextmenu="#gridMenu" headercontextmenu="#headerMenu">
+            <div property="columns">
+                <div type="indexcolumn"></div>
+                <div type="checkcolumn"></div>
+                <div field="Ecode" name="Ecode" width="120" align="center" headeralign="center" vtype="required" allowsort="true">
+                    编号<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="SortID" name="SortID" width="120" align="center" headeralign="center" allowsort="true" type="comboboxcolumn">
+                    类型<input property="editor" class="mini-combobox" style="width: 100%;" valuefield="id" textfield="SortName" url="GetSort" allowInput="true" showNullItem="true" />
+                </div>
+                <div field="IP" name="IP" width="120" align="center" headeralign="center" allowsort="true">
+                    IP<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="Place" name="Place" width="120" align="left" headeralign="center" allowsort="true">
+                    存放地点<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="DeptID" name="DeptID" width="120" align="center" headeralign="center" allowsort="true" type="comboboxcolumn">
+                    部门<input property="editor" class="mini-combobox" style="width: 100%;" valuefield="id" textfield="DeptName" url="GetDept" allowInput="true" showNullItem="true" />
+                </div>
+                <div field="UserName" name="UserName" width="120" align="center" headeralign="center" allowsort="true">
+                    用户<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="StatusID" name="StatusID" width="120" align="center" vtype="required" headeralign="center" allowsort="true" type="comboboxcolumn">
+                    状态<input property="editor" class="mini-combobox" style="width: 100%;" valuefield="id"
+                                textfield="StatusName" url="GetStatus" allowInput="true" showNullItem="false" />
+                </div>
+                <div field="Brand" name="Brand" width="120" align="center" headeralign="center" allowsort="true">
+                    品牌<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="Version" name="Version" width="120" align="center" headeralign="center" allowsort="true">
+                    型号<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="Remark" name="Remark" width="120" align="center" headeralign="center" allowsort="true">
+                    备注<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                <div field="InputUserID" name="InputUserID" width="120" align="center" headeralign="center" allowsort="true" type="comboboxcolumn">
+                    录入员(不可编辑)<input property="editor" class="mini-combobox" style="width: 100%;" valuefield="UserID" textfield="UserCName" url="GetUser" allowInput="true" showNullItem="true" />
+                </div>
+                <div field="UpdateTime" name="UpdateTime" width="120" align="center" headeralign="center" renderer="onDateRenderer" allowsort="true">
+                    更新时间(不可编辑)<input property="editor" class="mini-textbox" style="width: 100%;" minwidth="20" />
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+     
+</body>
+</html>
+
+<script type="text/javascript">
+
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+
+    var ddlstatus = mini.get("ddlstatus").getValue();
+
+    //默认查询在用数据
+    grid.load({ status: ddlstatus });
+
+    ///////////////////////////查询/////////////////////////////
+    function search() {
+        var key = mini.get("key").getValue();
+        var ddlstatus = mini.get("ddlstatus").getValue();
+        //alert(key);
+        //alert(ddlstatus);
+
+        grid.load(
+            {
+                //传递查询参数
+                key: key,
+                status: ddlstatus
+            }
+            );
+    }
+    function onKeyEnter(e) {
+        search();
+    }
+
+    //显示日期格式
+    function onDateRenderer(e) {
+        var value = e.value;
+        if (value) return mini.formatDate(value, 'yyyy-MM-dd hh:mm:ss');
+        return "";
+    }
+
+    //如果是录入员,录入时间，则不允许编辑
+    function OnCellBeginEdit(e) {
+        var field = e.field;
+        if (field == "InputUserID" || field == "UpdateTime") {
+            e.cancel = true;
+        }
+    }
+    //添加
+    function addRow() {
+        var newRow = { name: "New Row" };
+        grid.addRow(newRow, 0);
+        grid.beginEditCell(newRow, "LoginName");
+    }
+    //删除
+    function removeRow() {
+        var rows = grid.getSelecteds();
+        if (rows.length > 0) {
+            grid.removeRows(rows, true);
+        }
+    }
+    //保存
+    function saveData() {
+        //效验数据
+        //var grid = mini.get("datagrid1");
+        grid.validate();
+        if (grid.isValid() == false) {
+            //alert("请校验输入单元格内容");
+            var error = grid.getCellErrors()[0];
+            grid.beginEditCell(error.record, error.column);
+            return;
+        }
+        //获得增加、删除、修改的记录集合
+        var data = grid.getChanges();
+        var json = mini.encode(data);
+        grid.loading("保存中，请稍后......");
+        $.ajax({
+            url: "/malladmin/Equipment/SaveChangedEmployees",
+            data: { data: json },
+            type: "post",
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    grid.on("celleditenter", function (e) {
+        var index = grid.indexOf(e.record);
+        if (index == grid.getData().length - 1) {
+            var row = {};
+            grid.addRow(row);
+        }
+    });
+
+    grid.on("beforeload", function (e) {
+        if (grid.getChanges().length > 0) {
+            if (confirm("有增删改的数据未保存，是否取消本次操作？")) {
+                e.cancel = true;
+            }
+        }
+    });
+
+    ////////////////////////导出Excel/////////////////////////////////
+    function ExportExcel() {
+
+        //查询条件
+        var key = mini.get("key").getValue();
+        var ddlstatus = mini.get("ddlstatus").getValue();
+
+        //调用导出方法
+
+        window.location.href = "/malladmin/Equipment/Export?key=" + key + "&status=" + ddlstatus;
+
+
+    }
+
+
+    //function onCellValidation(e) {
+    //    //alert('ew');
+    //    if (e.field == "age") {
+
+    //        if (e.value < 20) {
+    //            e.isValid = false;
+    //            e.errorText = "年龄必须大于20岁";
+    //        }
+    //    }
+    //    if (e.field == "gender") {
+    //        if (e.value == 0) {
+    //            e.isValid = false;
+    //            e.errorText = "不能为空";
+    //        }
+    //    }
+    //}
+
+    ///////////////////////////////////////////////////////
+    //var Genders = [{ id: 1, text: '男' }, { id: 2, text: '女' }];
+    //function onGenderRenderer(e) {
+    //    for (var i = 0, l = Genders.length; i < l; i++) {
+    //        var g = Genders[i];
+    //        if (g.id == e.value) return g.text;
+    //    }
+    //    return "";
+    //}
+
+</script>
+
+
+<script type="text/javascript">
+var WinAlerts = window.alert;
+window.alert = function(e) {
+//console.log('对象数组1：', e);
+    if(e != null && e.indexOf("www.miniui.com") > -1) {
+        //和谐了
+    }
+    else {
+        WinAlerts(e);
+    }
+};
+</script>

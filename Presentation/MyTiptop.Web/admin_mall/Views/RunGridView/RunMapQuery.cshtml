@@ -1,0 +1,241 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.RunMapViewModel 
+@{ 
+    Layout = null; 
+} 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <title>列表Map</title> 
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />  
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script> 
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script> 
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script> 
+    <script type="text/javascript" src="../../components/my97datepicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.extend.js"></script>
+
+    <!-- 引入 echarts.js -->
+    <script src="../../admin_mall/scripts/echarts.js"></script>
+
+    <script type="text/javascript" >
+
+        $(function () {
+            //启用jquery表单验证
+            $("form:first").validate();
+
+            //当选择其中一项时触发
+            $("#gridId").change(function () {
+                var checkValue = $("#gridId").val(); //获取Select选择的Value
+
+                if (checkValue != "") {
+                    window.location.href = "../../malladmin/rungridview/runmapquery?BaseRunGridViewID=" + checkValue;
+                }
+            });
+            //导出到Excel
+            $("#btnOutExcel").click(function () {
+                //参数赋值
+                $("#outExcel").val("1");
+                //提交
+                doPostBack("");
+                return false;
+            });
+            //确定提交
+            $("#btnEnter").click(function () {
+                //显示loading
+                $("#loading").show();
+                $("#lblmsg").html("");
+                //参数赋值
+                $("#outExcel").val("0");
+                //提交
+                doPostBack("");
+                return false;
+            });
+            //隐藏loading
+            $("#loading").hide();
+        }); 
+
+    </script> 
+
+    <style>
+     a {
+        display:block;
+        width:38px;
+        height:23px;
+        border:1px solid #CCC;
+        background:white;
+        }
+    </style>
+
+</head> 
+<body> 
+    <h1 class="rightH1"> 
+        通用查询 &gt;&gt; 通用查询（带图表2）
+        <div class="right"> 
+            <div class="clear"></div> 
+        </div> 
+        <div class="clear"></div> 
+    </h1> 
+    @using (Html.BeginForm()) 
+    { 
+        <div class="dataListSearch"> 
+            <table height="32"> 
+                <tbody> 
+                    <tr style="margin-bottom:15px; height:50px;"> 
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td> 
+                        <td> 
+                            &nbsp;&nbsp;&nbsp;查询表格：
+                        </td> 
+                        <td width="110"> 
+                            @Html.DropDownList("gridId", Model.BaseRunGridViewID) 
+                        </td> 
+                        <td width="80"> </td>
+                        <td> </td>
+                        <td><input id="btnEnter" type="button" class="searchBut" value="确定" /><input id="btnOutExcel" type="button" class="searchBut" value="导出" /><input type="hidden" id="outExcel" name="outExcel" value="0" /> <span id="loading" hidden="hidden"><img src="../../admin_mall/images/loading.gif" /></span> <span id="lblmsg"> @Model.msg</span></td>
+                        @*<td><input id="btnOutExcel" type="button" class="searchBut" value="导出" /><input type="hidden" id="outExcel" name="outExcel" value="0" /> </td>
+                        <td>@Model.msg</td>
+                        <td></td>*@
+                    </tr> 
+                    @*第二行开始循环得到查询条件*@
+                    @if (Model.ConditionList != null && Model.ConditionList.Count > 0)
+                    {
+                        foreach (MyTiptop.Core.Base_RunGridView_Condition row in Model.ConditionList)
+                        {
+                            <tr>
+                                <td width="15"> </td>
+                                <td>
+                                    @row.fieldName ：
+                                </td>
+                                <td width="110">@MyTiptop.Data.RunGridViewConditions.GetHtmlByOperator(row.type.ToString(),row.formName,row.iOperator,row.currOperator)</td>  @* 转到后台得到html标签  *@
+                                @*<td>@MyTiptop.Data.RunGridViewConditions.GetTextByDatatype(row.type.ToString(), row.formName, row.datetype,row.inputtcii,row.currValue)</td>*@
+                                <td>@MyTiptop.Data.RunGridViewConditions.GetTextByConditionId(row.id,row.currValue)</td>
+                                <td>@MyTiptop.Data.RunGridViewConditions.GetTextByinputtcii(row.inputtcii)</td>
+                                <td>@row.Remark</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="dataList"> 
+
+        @if (Model.dt != null && Model.dt.Rows.Count > 0)
+        {
+            <table style="width:99%">
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        @for (int i = 0; i < Model.dt.Columns.Count; i++)
+                        {
+                            //表头名称
+                            <th align="left"> @Model.dt.Columns[i].ColumnName</th>
+                        }
+                    </tr> 
+                </thead> 
+                <tbody> 
+                    @foreach (System.Data.DataRow row in Model.dt.Rows)
+                    {
+                        <tr>
+                            <td></td>
+                            @for (int i = 0; i < Model.dt.Columns.Count; i++)
+                            {
+                                <td>@row[i]</td>
+                            }
+                        </tr>
+
+
+                    }
+
+        
+
+                </tbody> 
+            </table> 
+        }
+        </div> 
+        <div class="dataListEdit"> 
+            <div class="page"> 
+                @Html.MallAdminPager(Model.PageModel)
+            </div> 
+        </div>    
+    }
+     
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom   . 数据源仅包含一行数据 。  -->
+    <div id="main"  style="width:100%;height:350px;"></div>
+    <script type="text/javascript">
+        $(function () {
+
+            var ds =  @Model.dtJson ;
+           
+            if(ds.length > 0)
+            {
+                //获取报表名称
+                var gridviewName =  $("#txtdept").find("option:selected").text();
+                //获取 gridId 等信息 。
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+
+               @*// var dimension = @Model.dimensionJson;
+               // var barStr = @Model.barStrJson;*@
+
+                option = {
+                    title : {
+                        text: gridviewName , //'某站点用户访问来源',
+                       // subtext: '纯属虚构',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient : 'vertical',
+                        x : 'left',
+                        //data:['直接访问','邮件营销','联盟广告','视频广告']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {
+                                show: true,
+                                type: ['pie', 'funnel'],
+                                option: {
+                                    funnel: {
+                                        x: '25%',
+                                        width: '50%',
+                                        funnelAlign: 'left',
+                                        max: 1548
+                                    }
+                                }
+                            },
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    series : [
+                        {
+                            name:'访问来源',
+                            type:'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data: ds  //[{value:335, name:'直接访问'},{value:310, name:'邮件营销'},{value:234, name:'联盟广告'},{value:135, name:'视频广告'}]
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            }
+        });
+    </script>
+    @Html.Partial("_footer")  
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body> 
+</html>  

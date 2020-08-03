@@ -1,0 +1,150 @@
+﻿@model MyTiptop.Web.Models.Bsfp625ViewModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Wellcome to use ETSOFT</title>
+    <link rel="stylesheet" type="text/css" href="../Scripts/tiptop/css/metro_mob/easyui_r.css" />
+    <link rel="stylesheet" type="text/css" href="../Scripts/tiptop/css/icon.css" />
+    <script type="text/javascript" src="../Scripts/tiptop/jquery.min.js"></script>
+    <script type="text/javascript" src="../Scripts/tiptop/jquery.easyui.min.js"></script>
+    <script type='text/javascript' src='../Scripts/tiptop/bsfp620.js'></script>
+    <script type="text/javascript" src="../admin_mall/scripts/showlist.js"></script>
+    @*<link type="text/css" rel="stylesheet" href="../admin_mall/css/site.css" />*@
+    <script type="text/javascript" src="../admin_mall/scripts/jquery.js"></script>
+
+    @*<script type='text/javascript' src='../dwr/engine.js'></script>
+    <script type='text/javascript' src='../dwr/util.js'></script>
+    <script type='text/javascript' src='../dwr/interface/Azz_Get.js'></script>
+    <script type='text/javascript' src='../dwr/interface/bsfp620_manager.js'></script>*@
+
+    <script type="text/javascript">
+       // alert('eea');
+
+        $(function(){
+            //alert('ee');
+            var ycid = $("input:hidden[name='hid']").val();
+            if (ycid != "") {
+                alert(ycid);
+            }
+            //alert('!!!!rrrr!');
+        });
+
+    </script>
+
+</head>
+<body class="easyui-layout" onload="">
+@using (Html.BeginForm("bsfp625", "tiptop"))
+{
+    <div data-options="region:'north',border:false" style="overflow:hidden">
+        <div class="panel-header" style="padding:0;border-width:1px 0;text-align:center">
+            @*<a href="../menu.html" class="easyui-linkbutton" data-options="iconCls:'icon-back'"
+               style="position:absolute;left:3px;top:3px;text-align:left">目录</a>*@
+            <span class="panel-title" style="line-height:32px">生产入库补录</span>
+            @*<a href="../index.html" class="easyui-linkbutton" data-options="iconCls:'icon-send'"
+               style="position:absolute;right:3px;top:3px" onclick="p510_send()">退出</a>*@
+        </div>
+    </div>
+    <div data-options="region:'center',border:false" style="padding:5px">
+        <label for="requisition" class="easyui-label">
+            入库单号
+        </label>
+        <input placeholder="Show requisition" class="easyui-input" id="requisition"  disabled="disabled" size="17" value="@Model.requisition" />
+        <input type="hidden" name="requisition"   value="@Model.requisition" />
+
+        <label for="employee" class="easyui-label">
+            操作人员
+        </label>
+        <input placeholder="Show employee" class="easyui-input" id="employee" disabled="disabled" size="17" value="@Model.employee" />
+        <input type="hidden" name="employee" value="@Model.employee" />
+        <br />
+        <label for="rpackno" class="easyui-label">
+            包装票号
+        </label>
+        <input placeholder="Show PackNO" class="easyui-input" id="packno"  disabled="disabled" size="17" value="@Model.packno" />
+        <input type="hidden" name="packno" value="@Model.packno" />
+
+        <input type="hidden" name="hid" id="hid" value="@Model.message" />
+
+        @*@if (Model.brb01 == "aaa")
+        {
+            //弹出式提示框。 不能页面加载完 再弹？
+            <script type="text/javascript">
+                //$(function () {
+                    alert('!!!!rrrr!');
+                //});
+            </script>
+        }*@
+        <label for="position" class="easyui-label">
+            存储位置
+        </label>
+        <input placeholder="Show position" class="easyui-input" id="position"  disabled="disabled" size="17" value="@Model.position" />
+        <input type="hidden" name="position" value="@Model.position" />
+        <table id="dg" width="100%">
+            <thead>
+                <tr>
+                    <th data-options="field:'sfv04',width:51">料号</th>
+                    <th data-options="field:'ima02',width:80">品名</th>
+                    <th data-options="field:'ima021',width:80">规格</th>
+                    <th data-options="field:'sfv09',width:20,align:'right'">数量</th>
+                    <th data-options="field:'gfe02',width:20,align:'right'">单位</th>
+                </tr>
+                @foreach (System.Data.DataRow row in Model.List.Rows)
+                {
+                    <tr>
+                        <td>@row["sfv04"]</td>
+                        <td>@row["ima02"]</td>
+                        <td>@row["ima021"]</td>
+                        <td>@row["l_sfv09"]</td>
+                        <td>@row["gfe02"]</td>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+    <div data-options="region:'south',border:false" style="background:#f0f0f0;overflow:hidden;">
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <input type"text"=type"text" autofocus="autofocus" placeholder="Scanning Barcode" class="m-input" name="barcode" id="barcode" onkeydown="if(event.keyCode==13){p625_getdata()}" />
+                </td>
+                <td style="width:80px;text-align:right">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="get" onclick="p620_getdata()" style="background:#c75252;color:#fff">下载</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <style scoped=scoped>
+        .panel-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 -1px rgba(0,0,0,0.3);
+        }
+
+        .datagrid-row, .datagrid-header-row {
+            height: 35px;
+        }
+
+        .datagrid-body td {
+            border-right: 1px dotted transparent;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .m-input {
+            height: 26px;
+            line-height: 26px;
+            font-size: 16px;
+            border: 0;
+            width: 100%;
+            background: transparent;
+        }
+    </style>
+}
+</body>
+
+</html>

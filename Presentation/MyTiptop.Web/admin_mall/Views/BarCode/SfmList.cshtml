@@ -1,0 +1,95 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.SfmListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>列表</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+</head>
+<body>
+    <h1 class="rightH1">
+        基础数据 &gt;&gt; 部门列表
+        <div class="right">
+            <a href="@Url.Action("deptadd")" class="menuBT"><img src="../../admin_mall/images/add.jpg" />添加</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm())
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;部门名称：
+                        </td>
+                        <td width="110">
+                            @*@Html.TextBox("deptname", Model.DeptName, new { height = "18" })*@
+                        </td>
+                        <td />                         
+                        <td width="110" />
+                        <td /> 
+                        <td width="130" /> 
+                        <td /> 
+                        <td width="130" /> 
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dataList">
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="140">部门名称</th>
+                        <th align="left">备注</th>
+                        <th align="left">备注</th>
+                        <th align="left">备注</th>
+                       
+
+      
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MyTiptop.OraCore.TC_SFM_FILE row in Model.List)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@row.TC_SFM01</td>
+                            <td>@Html.CalendarLab("", row.TC_SFM02)</td>
+                            <td>@row.TC_SFM03</td>
+                            <td>@row.TC_SFM04</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dataListEdit">
+            <div class="page">
+                @Html.MallAdminPager(Model.PageModel)
+            </div>
+        </div>
+    }
+
+@Html.Partial("_footer")
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>

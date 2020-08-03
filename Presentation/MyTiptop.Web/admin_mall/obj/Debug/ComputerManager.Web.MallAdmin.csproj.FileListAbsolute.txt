@@ -1,0 +1,5 @@
+C:\Data\Prog\ComputerManager\ComputerManager\Presentation\ComputerManager.Web\bin\ComputerManager.Web.MallAdmin.dll
+C:\Data\Prog\ComputerManager\ComputerManager\Presentation\ComputerManager.Web\bin\ComputerManager.Web.MallAdmin.pdb
+C:\Data\Prog\ComputerManager\ComputerManager\Presentation\ComputerManager.Web\admin_mall\obj\Debug\ComputerManager.Web.MallAdmin.csprojResolveAssemblyReference.cache
+C:\Data\Prog\ComputerManager\ComputerManager\Presentation\ComputerManager.Web\admin_mall\obj\Debug\ComputerManager.Web.MallAdmin.dll
+C:\Data\Prog\ComputerManager\ComputerManager\Presentation\ComputerManager.Web\admin_mall\obj\Debug\ComputerManager.Web.MallAdmin.pdb

@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{449E849A-E852-4FB2-8F1B-CF8267744B4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QASystem.Web.MallAdmin</RootNamespace>
+    <AssemblyName>QASystem.Web.MallAdmin</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AreaRegistration.cs" />
+    <Compile Include="Controllers\AnalyseController.cs" />
+    <Compile Include="Controllers\SelectHelper.cs" />
+    <Compile Include="Controllers\CheckDataController.cs" />
+    <Compile Include="Controllers\CheckSetController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\BaseDataController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\AnalyseViewModels.cs" />
+    <Compile Include="Models\CheckDataViewModels.cs" />
+    <Compile Include="Models\CheckSetViewModels.cs" />
+    <Compile Include="Models\BaseDataViewModels.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap\css\bootstrap.css" />
+    <Content Include="css\bootstrap\css\bootstrap.min.css" />
+    <Content Include="css\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="css\bootstrap\js\bootstrap.js" />
+    <Content Include="css\bootstrap\js\bootstrap.min.js" />
+    <Content Include="css\bootstrap\js\npm.js" />
+    <Content Include="css\images\anchor.gif" />
+    <Content Include="css\jquery.tree.css" />
+    <Content Include="css\site.css" />
+    <Content Include="images\a.jpg" />
+    <Content Include="images\add.jpg" />
+    <Content Include="images\bg.jpg" />
+    <Content Include="images\bottombg.jpg" />
+    <Content Include="images\bt_right.jpg" />
+    <Content Include="images\cancel.jpg" />
+    <Content Include="images\delete.jpg" />
+    <Content Include="images\delete2.gif" />
+    <Content Include="images\edit.jpg" />
+    <Content Include="images\goback.jpg" />
+    <Content Include="images\ico1.jpg" />
+    <Content Include="images\li.jpg" />
+    <Content Include="images\li1.jpg" />
+    <Content Include="images\logo.jpg" />
+    <Content Include="images\menubg.jpg" />
+    <Content Include="images\menubg_bottom.jpg" />
+    <Content Include="images\menubg_top.jpg" />
+    <Content Include="images\menuli_bg.jpg" />
+    <Content Include="images\menuli_bg_hot.jpg" />
+    <Content Include="images\nav_bg_hot.jpg" />
+    <Content Include="images\progressbar.gif" />
+    <Content Include="images\refresh.jpg" />
+    <Content Include="images\right_ico.jpg" />
+    <Content Include="images\s.jpg" />
+    <Content Include="images\search1.gif" />
+    <Content Include="images\selectbg.gif" />
+    <Content Include="images\selectbgico.gif" />
+    <Content Include="images\submit.jpg" />
+    <Content Include="images\tagbg-left.jpg" />
+    <Content Include="images\tagbg.jpg" />
+    <Content Include="images\tip.gif" />
+    <Content Include="images\top_bg.jpg" />
+    <Content Include="images\tree_close.gif" />
+    <Content Include="images\tree_open.gif" />
+    <Content Include="scripts\autocomplete.js" />
+    <Content Include="scripts\excanvas.js" />
+    <Content Include="scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="scripts\jquery-3.1.1.js" />
+    <Content Include="scripts\jquery-3.1.1.min.js" />
+    <Content Include="scripts\jquery-3.1.1.slim.js" />
+    <Content Include="scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="scripts\jquery.flot.js" />
+    <Content Include="scripts\jquery.flot.pie.js" />
+    <Content Include="scripts\jquery.js" />
+    <Content Include="scripts\jquery.metadata.js" />
+    <Content Include="scripts\jquery.tree.js" />
+    <Content Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.validate.extend.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="scripts\jqueryui\AUTHORS.txt" />
+    <Content Include="scripts\jqueryui\external\jquery\jquery.js" />
+    <Content Include="scripts\jqueryui\images\ui-icons_444444_256x240.png" />
+    <Content Include="scripts\jqueryui\images\ui-icons_555555_256x240.png" />
+    <Content Include="scripts\jqueryui\images\ui-icons_777620_256x240.png" />
+    <Content Include="scripts\jqueryui\images\ui-icons_777777_256x240.png" />
+    <Content Include="scripts\jqueryui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="scripts\jqueryui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="scripts\jqueryui\index.html" />
+    <Content Include="scripts\jqueryui\jquery-ui.css" />
+    <Content Include="scripts\jqueryui\jquery-ui.js" />
+    <Content Include="scripts\jqueryui\jquery-ui.min.css" />
+    <Content Include="scripts\jqueryui\jquery-ui.min.js" />
+    <Content Include="scripts\jqueryui\jquery-ui.structure.css" />
+    <Content Include="scripts\jqueryui\jquery-ui.structure.min.css" />
+    <Content Include="scripts\jqueryui\jquery-ui.theme.css" />
+    <Content Include="scripts\jqueryui\jquery-ui.theme.min.css" />
+    <Content Include="scripts\jqueryui\LICENSE.txt" />
+    <Content Include="scripts\Pages\SecondStep.js" />
+    <Content Include="scripts\Pages\FirstStep.js" />
+    <Content Include="scripts\tabhelp.js" />
+    <Content Include="scripts\region.js" />
+    <Content Include="scripts\selectlist.js" />
+    <Content Include="scripts\showlist.js" />
+    <None Include="Views\Analyse\PianChaAnalyse.cshtml" />
+    <None Include="Views\Analyse\SecondStepPqAnalyse.cshtml" />
+    <None Include="Views\Analyse\FirstStepPqAnalyse.cshtml" />
+    <None Include="Views\Analyse\SecondStepLotAnalyse.cshtml" />
+    <None Include="Views\Analyse\FirstStepLotAnalyse.cshtml" />
+    <None Include="Views\Analyse\SecondStepCheckAnalyseList.cshtml" />
+    <None Include="Views\Analyse\FirstStepCheckAnalyseList.cshtml" />
+    <None Include="Views\Analyse\index - 复制.cshtml" />
+    <None Include="Views\Analyse\index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Core\ComputerManager.Core.csproj">
+      <Project>{2d71ebca-5f56-4057-988f-fff948b63a3c}</Project>
+      <Name>ComputerManager.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Date\ComputerManager.Data.csproj">
+      <Project>{783d2938-b359-4914-b638-52ee4ecf6551}</Project>
+      <Name>ComputerManager.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\QASystem.Services\ComputerManager.Services.csproj">
+      <Project>{66c55add-692d-4324-a8bd-550dd48423f8}</Project>
+      <Name>ComputerManager.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QASystem.Web.Framework\ComputerManager.Web.Framework.csproj">
+      <Project>{92b4fb7a-cdd2-4cba-a3d6-69483c8cda1c}</Project>
+      <Name>ComputerManager.Web.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="css\bootstrap\css\bootstrap-theme.css.map" />
+    <None Include="css\bootstrap\css\bootstrap-theme.min.css.map" />
+    <None Include="css\bootstrap\css\bootstrap.css.map" />
+    <None Include="css\bootstrap\css\bootstrap.min.css.map" />
+    <None Include="css\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="css\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="css\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="css\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="css\images\anchor.xcf" />
+    <None Include="scripts\jquery-3.1.1.min.map" />
+    <None Include="scripts\jquery-3.1.1.slim.min.map" />
+    <None Include="scripts\jqueryui\package.json" />
+    <None Include="Views\BaseData\CheckThreadAdd.cshtml" />
+    <None Include="Views\BaseData\CheckThreadEdit.cshtml" />
+    <None Include="Views\BaseData\CheckThreadList.cshtml" />
+    <None Include="Views\BaseData\CheckerCodeEdit.cshtml" />
+    <None Include="Views\BaseData\CheckerCodeList.cshtml" />
+    <None Include="Views\BaseData\CheckerCodeAdd.cshtml" />
+    <None Include="Views\BaseData\CheckAreaAdd.cshtml" />
+    <None Include="Views\BaseData\PoorSizeAdd.cshtml" />
+    <None Include="Views\BaseData\CheckAreaEdit.cshtml" />
+    <None Include="Views\BaseData\PoorSizeEdit.cshtml" />
+    <None Include="Views\BaseData\CheckAreaList.cshtml" />
+    <None Include="Views\BaseData\PoorSizeList.cshtml" />
+    <None Include="Views\BaseData\PoorCodeAdd.cshtml" />
+    <None Include="Views\BaseData\PoorCodeEdit.cshtml" />
+    <None Include="Views\BaseData\PoorCodeList.cshtml" />
+    <None Include="Views\BaseData\CheckProjectAdd.cshtml" />
+    <None Include="Views\BaseData\CheckKindAdd.cshtml" />
+    <None Include="Views\BaseData\CheckProjectEdit.cshtml" />
+    <None Include="Views\BaseData\CheckProjectList.cshtml" />
+    <None Include="Views\BaseData\poorsortadd.cshtml" />
+    <None Include="Views\BaseData\poorsortedit.cshtml" />
+    <None Include="Views\BaseData\poorsortList.cshtml" />
+    <None Include="Views\BaseData\WorkProcessAdd.cshtml" />
+    <None Include="Views\BaseData\CheckKindEdit.cshtml" />
+    <None Include="Views\BaseData\WorkProcessEdit.cshtml" />
+    <None Include="Views\BaseData\CheckKindList.cshtml" />
+    <None Include="Views\BaseData\WorkProcessList.cshtml" />
+    <None Include="Views\BaseData\prdtadd.cshtml" />
+    <None Include="Views\BaseData\checkmodeladd.cshtml" />
+    <None Include="Views\BaseData\shopadd.cshtml" />
+    <None Include="Views\BaseData\prdtedit.cshtml" />
+    <None Include="Views\BaseData\checkmodeledit.cshtml" />
+    <None Include="Views\BaseData\shopedit.cshtml" />
+    <None Include="Views\BaseData\prdtList.cshtml" />
+    <None Include="Views\BaseData\checkmodelList.cshtml" />
+    <None Include="Views\BaseData\shopList.cshtml" />
+    <None Include="Views\CheckData\SecondStepCheckAdd.cshtml" />
+    <None Include="Views\CheckData\FirstStepCheckAdd.cshtml" />
+    <None Include="Views\CheckData\SecondStepCheckEdit.cshtml" />
+    <None Include="Views\CheckData\FirstStepCheckEdit.cshtml" />
+    <None Include="Views\CheckData\SecondStepCheckList.cshtml" />
+    <None Include="Views\CheckData\FirstStepCheckList.cshtml" />
+    <None Include="Views\CheckSet\CheckAreaSetAdd.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqSortAdd.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqCodeAdd.cshtml" />
+    <None Include="Views\CheckSet\CheckAreaSetEdit.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqSortEdit.cshtml" />
+    <None Include="Views\CheckSet\CheckAreaSetList.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqSortList.cshtml" />
+    <None Include="Views\CheckSet\PrdtCheckStandardAdd.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqCodeEdit.cshtml" />
+    <None Include="Views\CheckSet\PrdtCheckStandardEdit.cshtml" />
+    <None Include="Views\CheckSet\PqSortPqCodeList.cshtml" />
+    <None Include="Views\CheckSet\PrdtCheckStandardList.cshtml" />
+    <None Include="Views\Home\mallruninfo.cshtml" />
+    <None Include="Views\Home\menu.cshtml" />
+    <None Include="Views\Home\navbar.cshtml" />
+    <None Include="Views\Role\Funcedit.cshtml" />
+    <None Include="Views\Role\Funcadd.cshtml" />
+    <None Include="Views\Role\add.cshtml" />
+    <None Include="Views\Role\edit.cshtml" />
+    <None Include="Views\Role\FuncList.cshtml" />
+    <None Include="Views\Role\RoleAuthorization.cshtml" />
+    <None Include="Views\Role\List.cshtml" />
+    <None Include="Views\Shared\prompt.cshtml" />
+    <None Include="Views\Shared\_footer.cshtml" />
+    <None Include="Views\User\add.cshtml" />
+    <None Include="Views\User\edit.cshtml" />
+    <None Include="Views\User\List.cshtml" />
+    <None Include="Views\User\resetpwd.cshtml" />
+    <None Include="Views\User\UserAuthorization.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

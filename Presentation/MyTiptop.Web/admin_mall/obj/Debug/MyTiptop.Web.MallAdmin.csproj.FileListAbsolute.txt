@@ -1,0 +1,11 @@
+E:\hhydh\Prog\MyTiptop\Presentation\MyTiptop.Web\bin\MyTiptop.Web.MallAdmin.dll
+E:\hhydh\Prog\MyTiptop\Presentation\MyTiptop.Web\bin\MyTiptop.Web.MallAdmin.pdb
+E:\hhydh\Prog\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.csprojResolveAssemblyReference.cache
+E:\hhydh\Prog\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.dll
+E:\hhydh\Prog\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.pdb
+D:\MyTiptop\Presentation\MyTiptop.Web\bin\MyTiptop.Web.MallAdmin.dll.config
+D:\MyTiptop\Presentation\MyTiptop.Web\bin\MyTiptop.Web.MallAdmin.dll
+D:\MyTiptop\Presentation\MyTiptop.Web\bin\MyTiptop.Web.MallAdmin.pdb
+D:\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.csprojResolveAssemblyReference.cache
+D:\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.dll
+D:\MyTiptop\Presentation\MyTiptop.Web\admin_mall\obj\Debug\MyTiptop.Web.MallAdmin.pdb

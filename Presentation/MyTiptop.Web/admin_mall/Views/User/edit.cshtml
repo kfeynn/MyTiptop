@@ -1,0 +1,96 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.UserViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>编辑用户</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="../../components/my97datepicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/region.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+    <script type="text/javascript">
+            $(function () {
+                $(".addTag li").click(function () {
+                    $(".addTag li").removeClass("hot");
+                    $(this).addClass("hot");
+                    $(".addTable").hide().eq($(this).index()).show(0);
+                })
+
+                $(".addBt").click(function () {
+                    $("form:first").submit();
+                    return false;
+                })
+            });
+        </script>
+</head>
+
+<body>
+    <h1 class="rightH1">
+        用户管理 &gt;&gt; 添加用户@Html.Raw(ViewData["referer"].ToString())
+        <div class="right">
+            <a href="@ViewBag.referer" @*onclick="javascript:history.go(-1)"*@ class="menuBT"><img src="../../admin_mall/images/goback.jpg" />返回列表</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    <ul class="addTag">
+        <li class="hot"><a href="javascript:;">基本信息</a></li>
+        <li><a href="javascript:;">积分信息</a></li>
+        <li><a href="javascript:;">扩展信息</a></li>
+        <div class="clear">
+        </div>
+    </ul>
+
+    @using (Html.BeginForm())
+    {
+        <div class="addTable">
+            <table width="100%"  >
+                <tr>
+                    <td width="86px" align="right">工号：</td>
+                    <td>
+                       @Html.TextBoxFor(m => m.User.UserName, new { @class = "input", size = "35" })
+
+                        @Html.Hidden("uid", @Model.User.UserID)
+                        @*@Html.HiddenFor(m => @Model.User.UserID)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td width="86px" align="right">姓名：</td>
+                    <td>
+                        @Html.TextBoxFor(m => m.User.UserCName, new { @class = "input", size = "35" })
+                        @*@Model.User.UserCName*@
+                    </td>
+                </tr>
+                <tr>
+                    <td width="86px" align="right">禁用：</td>
+                    <td>
+                        @Html.CheckBoxFor(m =>  @Model.isdeleted)
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td>
+                        <a href="" class="addBt" id="sumbitBut1"><img src="../../admin_mall/images/submit.jpg" /></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+@*@Html.Partial("_footer")*@
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+</body>
+</html>

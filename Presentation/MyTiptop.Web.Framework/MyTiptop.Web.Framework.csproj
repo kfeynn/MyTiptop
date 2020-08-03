@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92B4FB7A-CDD2-4CBA-A3D6-69483C8CDA1C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyTiptop.Web.Framework</RootNamespace>
+    <AssemblyName>MyTiptop.Web.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseMallAdminController.cs" />
+    <Compile Include="Controllers\BaseWebController.cs" />
+    <Compile Include="ImageResult.cs" />
+    <Compile Include="Pager\Base\PageModel.cs" />
+    <Compile Include="Pager\Base\Pager.cs" />
+    <Compile Include="Pager\BootstrapPager.cs" />
+    <Compile Include="Pager\MallAdminPager.cs" />
+    <Compile Include="Pager\PagerHtmlExtension.cs" />
+    <Compile Include="Pager\WebPager.cs" />
+    <Compile Include="PromptModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theme\ThemeBuildManagerViewEngine.cs" />
+    <Compile Include="Theme\ThemeRazorViewEngine.cs" />
+    <Compile Include="Theme\ThemeVirtualPathProviderViewEngine.cs" />
+    <Compile Include="ViewPages\MallAdminViewPage.cs" />
+    <Compile Include="ViewPages\WebViewPage.cs" />
+    <Compile Include="WorkContext\MallAdminWorkContext.cs" />
+    <Compile Include="WorkContext\WebWorkContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\MyTiptop.Core\MyTiptop.Core.csproj">
+      <Project>{2d71ebca-5f56-4057-988f-fff948b63a3c}</Project>
+      <Name>MyTiptop.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\MyTiptop.Data\MyTiptop.Data.csproj">
+      <Project>{783d2938-b359-4914-b638-52ee4ecf6551}</Project>
+      <Name>MyTiptop.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\MyTiptop.Services\MyTiptop.Services.csproj">
+      <Project>{66c55add-692d-4324-a8bd-550dd48423f8}</Project>
+      <Name>MyTiptop.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,44 @@
+﻿
+<div id="headerBar" class="bigBox">
+    <div class="box">
+        欢迎访问 @WorkContext.MallConfig.MallName
+        <div class="headerLink">
+            @if (WorkContext.Uid < 1)
+            {
+                @*<a href="@Url.Action("login", "account", new RouteValueDictionary { { "returnUrl", WorkContext.Url } })">[登录]</a>*@
+                @Html.ActionLink("[登录]", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" , target= "_parent"})
+                @*<a href="@Url.Action("register", "account")" class="A_b">[注册]</a>*@
+            }
+            else
+            {
+                @:您好: @WorkContext.NickName
+                <a href="@Url.Action("logout", "account")">[退出]</a>
+
+              
+                <a href="@Url.Action("index", "home", new RouteValueDictionary { { "area", "malladmin" } })" target="_parent">[后台管理]</a>
+                
+                @*<a href="@Url.Action("orderlist", "ucenter")">[我的订单]</a>*@
+            }
+        </div>
+    </div>
+</div>
+
+@*//暂时取消此节 站内搜索 *@
+@*    <div id="header" class="bigBox">
+        <div class="box" id="header1">
+            <a href="/" class="logo left"><img src="@{@WorkContext.ImageCDN}/images/logo.jpg" /></a>
+            <div class="search left">
+                <div class="searchCon">
+                    <input type="text" id="word" name="word" class="Stext" autocomplete="off" onkeydown="javascript:if(event.keyCode==13) mallSearch(document.getElementById('word').value);" value="@Html.Raw(WorkContext.SearchWord)" />
+                    <input name="" type="button" value="搜索" class="Sbutton" onclick="mallSearch(document.getElementById('word').value)" />
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>*@
+
+<div id="nav" class="bigBox" style="background-color:black">
+  
+</div>
+          

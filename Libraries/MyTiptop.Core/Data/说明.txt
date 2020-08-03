@@ -1,0 +1,62 @@
+﻿
+//Core Data  定义业务接口
+
+
+
+
+////////////////////
+
+
+演示接口调用
+
+
+/////////////////////
+using System;
+
+namespace ClassLibrary2 
+{ 
+  interface IEmploy //接口 
+  { 
+    void Speak(); //方法 
+  }
+
+  class Hello:IEmploy //Hello类实现接口 
+  {
+    public void Speak() //实现方法 
+    { 
+      Console.WriteLine("Hello：朋友"); 
+    }
+
+  }
+
+  class Sorry:IEmploy //Sorry类实现接口 
+  {
+    public void Speak() //实现方法 
+    { 
+      Console.WriteLine("Sorry：朋友"); 
+    }
+  } 
+}
+实现
+
+//直接调用 
+IEmploy Ie = new Hello(); 
+Ie.Speak(); //调用Hello类实现的接口
+
+IEmploy Ie = new Sorry(); 
+Ie.Speak();
+
+//反射调用 记住反射的空间引用 using System.Reflection;
+
+Assembly Asm = Assembly.Load("ClassLibrary2");//反射出空间
+
+Type type = Asm.GetType("ClassLibrary2.Hello");//反射出空间下的类
+
+object AssClas = Activator.CreateInstance(type);//动态实力化反射回来的指定空间下的指定类
+
+IEmploy Ie = (IEmploy)AssClas; ////转换为接口类型
+
+//常用的就这几种方法
+
+
+

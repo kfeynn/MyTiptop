@@ -1,0 +1,333 @@
+﻿@model MyTiptop.Web.Models.PnListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>PNList</title>
+    <!--响应式设置，自动检测客户端设备-->
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")" /><!-- Url.Content 路径取绝对路径 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css")" />
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/fonts.googleapis.com.css")" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace.min.css")" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-part2.min.css")" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-skins.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-rtl.min.css")" />
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="@Url.Content("~/Content/assets/js/ace-extra.min.js")"></script>
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="@Url.Content("~/Content/assets/js/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/respond.min.js")"></script>
+    <![endif]-->
+
+    <link href="@Url.Content("~/admin_mall/css/_share.css")" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="@Url.Content("~/components/my97datepicker/WdatePicker.js")"></script>
+
+    <!--------------------------------------------- basic scripts -------------------------------------------->
+    <!--[if !IE]> -->
+    <script src="@Url.Content("~/Content/assets/js/jquery-2.1.4.min.js")"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/Content/assets/js/jquery.mobile.custom.min.js")'>"+"<"+"/script>");
+    </script>
+    <script src="@Url.Content("~/Content/assets/js/bootstrap.min.js")"></script>
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+      <script src="assets/js/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- ace scripts -->
+    <script src="@Url.Content("~/Content/assets/js/ace-elements.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ace.min.js")"></script>
+
+    <!-- 自定义js -->
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+    <!-- 分页条控制 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/bootstrapPager.js")"></script>
+
+    <!--bootstrap 表单验证插件-->
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/bootstrapValidator.min.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/language/zh_CN.js")"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            //表单提交操作
+            //function doPostBack0(action) {
+            //    var from = $("form:first");
+            //    if (action != "") {
+            //        from.prop("action", action);
+            //    }
+            //    from.get(0).submit();
+            //};
+
+            //导出到Excel
+            $("#btnOutExcel").click(function () {
+                //参数赋值
+                $("#outExcel").val("1");
+                //提交
+                doPostBack("");
+
+                $("#outExcel").val("0"); 
+
+                return false;
+            });
+
+            //查询
+            $("#btnQuery").click(function () {
+                $("#outExcel").val("0");
+                doPostBack("");
+                return false;
+            });
+        });
+    </script>
+
+
+    <script src="@Url.Content("~/Scripts/holder.min.js")"></script>
+
+</head>
+
+<body> 
+
+    @using (Html.BeginForm("pnlist", "supplier", FormMethod.Post, new { id = "form1", name = "form1", @class = "form-horizontal" }))
+    {
+        <fieldset>
+            @*<div class="page-header"><h1>PNList</h1></div>*@
+            <div class="form-group">
+                <label for="txtqcy01" class="col-sm-2 control-label">PN：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="DNNUM" name="DNNUM" placeholder="送货单号" value="@Model.pn.DNNUM">
+                </div>
+                <label for="txtqcy02" class="col-sm-2 control-label">供应商编号：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="txtSUPID" name="SUPID" placeholder="供应商编号" value="@Model.pn.SUPID">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtqcy03" class="col-sm-2 control-label">供应商名称：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtNAME"  name="NAME"  placeholder="供应商名称" value="@Model.pn.NAME">
+                </div>
+                <label for="txtqcy04" class="col-sm-2 control-label">营运中心:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtPLANT"  name="PLANT"  placeholder="营运中心"  value="@Model.pn.PLANT">
+                </div>
+                <label for="txtqcy05" class="col-sm-2 control-label">订单号:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"    name="PMM01"  placeholder="订单号"  value="@Model.pnSub.PMM01">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtqcy06" class="col-sm-2 control-label">料号：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"    name="PMN04"  placeholder="料号"  value="@Model.pnSub.PMN04">
+                </div>
+                <label for="txtqcy07" class="col-sm-2 control-label">物料名称:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"    name="PMN041"  placeholder="物料名称"  value="@Model.pnSub.PMN041">
+                </div>
+                <label for="txtqcy08" class="col-sm-2 control-label">送货日期：</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        @if (Model.pn.PMN33 == null)
+                        {
+                            <input type="text" class="form-control" autocomplete="off" id="PMN33" name="PMN33" placeholder="送货日期" value="" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})">
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" autocomplete="off" id="PMN33" name="PMN33" placeholder="送货日期" value="@Convert.ToDateTime(@Model.pn.PMN33).ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})">
+                        }
+                        <label class="input-group-addon" for="PMN33"><i class="fa fa-calendar bigger-110"></i></label>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-4">
+                    <button type="button" class="btn btn-default" id="btnQuery">查询</button>
+                    <button id="btnOutExcel" type="button" class="btn btn-default">导出</button> <input type="hidden" id="outExcel" name="outExcel" value="0" />
+                </div>
+
+                <div class="col-sm-2 btn-warning">
+                   @Model.message
+                </div>
+            </div>
+       </fieldset>
+
+        <!--分割线-->
+        @*<div class="divider"></div>*@
+
+        <!--table-->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                        <tr> 
+                            <th class="detail-col">Details</th>
+                            <th>PN</th>
+                            <th>送货日期</th>
+                            <th class="hidden-480">供应商编号</th>
+                            <th class="hidden-480">供应商名称</th>
+                            <th class="hidden-480">营运中心</th>
+                            <th>状态</th>
+                            <th></th>
+                        </tr> 
+                    </thead>
+                    <tbody> 
+                        @foreach (MyTiptop.SupplierData.PN row in Model.pnList)
+                        { 
+                            <!--父节点-->
+                            <tr> 
+                                <td class="center">
+                                    <div class="action-buttons">
+                                        @*<a href=#link_ onclick="changehtmlcontent()">连接</a><a href=# name=link_>*@
+                                        <a href="javascript:void(0)" class="green bigger-140 show-details-btn" title="Show Details">
+                                            <i class="ace-icon fa fa-angle-double-down"></i>
+                                            <span class="sr-only">Details</span>
+                                        </a>
+                                     </div>
+                                </td>
+                                <td> 
+                                    <div class="action-buttons">
+                                        @*window.open('@Url.Content("~/Home/Index?File=")'+data+'')*@
+                                        <strong>@row.DNNUM</strong>
+                                    </div>
+                                </td>
+                                <td>@row.PMN33</td>
+                                <td  class="hidden-480">@row.SUPID</td>
+                                <td  class="hidden-480">@row.NAME</td>
+                                <td  class="hidden-480">@row.PLANT</td>
+                                <td>
+                                    @if (row.STATUS == 2)
+                                    {
+                                        @*<img  src="@Url.Content("~/images/checked-sm.png")" alt="核" class="img-circle">*@
+                                        <span class="label-warning">已收货</span>
+                                    }
+                                    else if (row.STATUS == 1)
+                                    {
+                                        <span class="label-success">有效</span>
+                                    }
+                                    else
+                                    {
+                                        <span>无效</span>
+                                    }
+                                </td>
+                               
+                                <td>
+                                    
+                                </td>
+                            </tr>
+
+                            <!--明细-->
+                            <tr class="detail-row">
+                                <td colspan="8">
+                                    <div class="table-detail">
+                                        <div class="row">
+
+                                            <div class="col-xs-12 col-sm-12">
+                                                <div class="space visible-xs"></div>
+
+                                                <div class="profile-user-info profile-user-info-striped">
+
+                                                    <div class="profile-info-row" >
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center; padding:0px;">订单号</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center; padding:0px;">项次</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center; padding:0px;">料号</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center;">名称</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center;">规格</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center;">单位</div>
+                                                        <div class="profile-info-name" style="border-right:1px dotted #D5E4F1;text-align:center;"><span>数量</span></div>
+                                                    </div>
+                                                    @foreach (MyTiptop.SupplierData.PNSUB subrow in Model.pnSubList)
+                                                    {
+                                                        if (row.DNNUM == subrow.SDNNUM)
+                                                        {
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.PMM01</div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.PMN02</div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.PMN04</div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.PMN041</div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.IMA021</div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;">@subrow.PMN07 </div>
+                                                                <div class="profile-info-value" style="border-right:1px dotted #D5E4F1;text-align:center;"><span>@subrow.PMN20</span></div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                    @*<div class="profile-info-row">
+                                                        <div class="profile-info-name"> 马达序列号 </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span>@row.DNNUM</span>
+                                                        </div>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*页脚*@
+                @Html.BootstrapPager(Model.PageModel)
+            </div><!-- /.span -->
+        </div><!-- /.row -->
+
+       
+
+      
+    }
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        /************  显示/隐藏 区域  ***/
+        $('.show-details-btn').on('click', function (e) {
+            e.preventDefault();
+            //$(this).closest('tr').next().toggleClass('open');
+            $(this).closest('tr').next().fadeToggle("slow");
+            $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+            $(this).closest('tr').next().css('visibility', 'visible');
+
+            //重新计算父框架高度
+            initIFrameHeight();
+        });
+      
+        /***************/
+        //载入时隐藏审批列表
+        $(".detail-row").hide();
+
+        //重新计算父框架高度
+        initIFrameHeight();
+
+    });
+
+</script>
+
+

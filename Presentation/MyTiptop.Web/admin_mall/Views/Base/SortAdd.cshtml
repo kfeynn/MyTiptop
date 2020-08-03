@@ -1,0 +1,88 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.SortAddViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>添加用户</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    @*<script type="text/javascript" src="../../admin_mall/scripts/jquery-3.1.1.min.js"></script>*@
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script src="../../admin_mall/scripts/jquery-3.1.1.intellisense.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.extend.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //启用jquery表单验证
+            $("form:first").validate();
+
+            $(".addTag li").click(function(){
+                $(".addTag li").removeClass("hot");
+                $(this).addClass("hot");
+                $(".addTable").hide().eq($(this).index()).show(0);
+            })
+            $(".addBt").click(function (){
+                    $("form:first").submit();
+                    //阻止页面再刷新
+                    return false;
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <h1 class="rightH1">
+        基础数据 &gt;&gt; 添加类型
+        <div class="right">
+            <a href="@ViewBag.referer" class="menuBT"><img src="../../admin_mall/images/goback.jpg" />返回列表</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    <ul class="addTag">
+        <li class="hot"><a href="javascript:;">基本信息</a></li>
+        <div class="clear"></div>
+    </ul>
+    @using (Html.BeginForm())
+    {
+        <div class="addTable">
+            <table width="100%">
+                <tr>
+                    <td width="86px" align="right">连续添加：</td>
+                    <td>@Html.CheckBoxFor(x => Model.AddFlag)</td>
+                </tr>
+                <tr>
+                    <td width="86px" align="right">类型名称：</td>
+                    <td>@Html.TextBoxFor(x => Model.Single.SortName, new { @class = "input", required = true,   size = "35" })  @Html.ValidationMessageFor(x => Model.Single.SortName)</td>
+                </tr>
+                <tr>
+                    <td width="86px" align="right">备注：</td>
+                    <td>@Html.TextBoxFor(x => Model.Single.Remark, new { @class = "input",  size = "35" })  @Html.ValidationMessageFor(x => Model.Single.Remark)</td>
+                </tr>
+                <tr>
+                    <td align="right"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td>
+                        <a href="" class="addBt" id="sumbitBut1"><img src="../../admin_mall/images/submit.jpg" /></a>
+                        <label id="lblMessage"></label> @Model.Message <!-- 有提示信息就显示 -->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    }
+@Html.Partial("_footer")
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>
+

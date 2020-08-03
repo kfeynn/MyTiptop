@@ -1,0 +1,426 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.DCheckListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    @*<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">*@
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <!--响应式设置，自动检测客户端设备-->
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <title>复检</title>
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")" /><!-- Url.Content 路径取绝对路径 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css")" />
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/fonts.googleapis.com.css")" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace.min.css")" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-part2.min.css")" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-skins.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-rtl.min.css")" />
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="@Url.Content("~/Content/assets/js/ace-extra.min.js")"></script>
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="@Url.Content("~/Content/assets/js/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/respond.min.js")"></script>
+    <![endif]-->
+
+    <link href="@Url.Content("~/admin_mall/css/_share.css")" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="@Url.Content("~/components/my97datepicker/WdatePicker.js")"></script>
+
+    <!--------------------------------------------- basic scripts -------------------------------------------->
+    <!--[if !IE]> -->
+    <script src="@Url.Content("~/Content/assets/js/jquery-2.1.4.min.js")"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/Content/assets/js/jquery.mobile.custom.min.js")'>"+"<"+"/script>");
+    </script>
+    <script src="@Url.Content("~/Content/assets/js/bootstrap.min.js")"></script>
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+      <script src="assets/js/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- ace scripts -->
+    <script src="@Url.Content("~/Content/assets/js/ace-elements.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/ace.min.js")"></script>
+
+    <!-- 自定义js -->
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+    <!--bootstrap 表单验证插件-->
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/bootstrapValidator.min.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/language/zh_CN.js")"></script>
+
+    <script type="text/javascript">
+
+        //选择OK/NG，用ajax方式提交更新
+        function checking(qcz01, qcz05, qcz08)
+        {
+            //1.检查上一个选项是否选择，如果没有选择则不允许提交。
+            //2.更新数据库。显示模态框休息5秒
+            var flag = false;
+            $.ajax({
+                dataType: "json",
+                type: 'post',
+                url: '@Url.Content("~/malladmin/qclist/ccheckingAjax")',
+                data: {
+                    "qcz01": qcz01,
+                    "qcz05": qcz05
+                },
+                async: false, //是否异步
+                success: function (data, status) {
+                    if (data.content == "1") {
+                        flag = true;
+                    }
+                },
+                error: function (data, status) {
+                    alert('ajax checkingAjax Error');
+                }
+            });
+            if (flag) {
+                //更新数据库。显示模态框休息5秒
+                $.ajax({
+                    dataType: "json",
+                    type: 'post',
+                    url: '@Url.Content("~/malladmin/qclist/updateQcz08Ajax")',
+                    data: {
+                        "qcz01": qcz01,
+                        "qcz08": qcz08,
+                        "qcz05": qcz05
+                    },
+                    async: true, //是否异步
+                    success: function (data, status) {
+                        if (data.content == "1") {
+                            //显示模态框
+                           
+                            //openMotal();
+                        }
+                        if (data.content == "2")
+                        {
+                            //alert("已经审核,不能修改");
+                            openMotal("错误提示", "已经审核,不能修改",3);
+                        }
+                    },
+                    error: function (data, status) {
+                        alert('ajax updateQcz03Ajax Error');
+                    }
+                });
+            }
+            else {
+                //$("input[name='imgtitle']").val();//这个只能取到第一个的值
+                var name = "radio" + qcz05;
+                $("input[name='" + name + "']").each(function () {
+                    //alert($(this).val());
+                    $(this).attr("checked", false);//取消选中
+                });
+                //alert("请按顺序勾选检验项次！");
+                openMotal("错误提示", "请按顺序勾选检验项次！", 3);
+            }
+        }
+
+        //添加备注。
+        function addfix(qcz01, qcz05)
+        {
+            //ajax 后台添加即可
+            var qcz04 = $("#txtfix" + qcz05).val();
+            //alert(qcz04);
+            $.ajax({
+                dataType: "json",
+                type: 'post',
+                url: '@Url.Content("~/malladmin/qclist/addQcz04Ajax")',
+                data: {
+                    "qcz01": qcz01,
+                    "qcz04": qcz04,
+                    "qcz05": qcz05
+                },
+                async: true, //是否异步
+                success: function (data, status) {
+                    if (data.content == "1") {
+                        //显示模态框
+                        //openMotai();
+                    }
+                    if (data.content == "2") {
+                        alert("已经审核,不能修改");
+                    }
+                },
+                error: function (data, status) {
+                    alert('ajax updateQcz03Ajax Error');
+                }
+            });
+        }
+
+
+        $(function () {
+            //表单提交操作
+            function doPostBack(action) {
+                var from = $("form:first");
+                if (action != "") {
+                    from.prop("action", action);
+                }
+                from.get(0).submit();
+            };
+            //查询
+            $("#btnQuery").click(function () {
+                var qcy01 = $("#txtqcy01").val();
+                //验证是否PN有值
+                if (qcy01 != "") {
+                    //参数赋值
+                    $("#_state").val("query");
+                    //提交
+                    doPostBack("");
+                    return false;
+                }
+                else {
+                    alert("请输入PN查询");
+                }
+            });
+        });
+
+        //调用父框架，锁屏弹框提示
+        function openMotal(title,content,timer)
+        {
+
+            if (window.parent != window) {
+                //parent.openMotal("title","请休息一下，",5);
+                parent.openMotal(title, content, timer);
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+
+    @using (Html.BeginForm("dchecklist", "qclist", FormMethod.Post, new { id = "form1", name = "form1", @class = "form-horizontal", autocomplete = "off" }))
+    {
+        <div class="page-header"><h1>@Model.qcy.TC_QCY01 QC Inspection Check List</h1>
+        <input type="hidden" id="_state" name="_state" value="query" />
+        </div>
+        <div class="form-group">
+            <label for="txtqcy01" class="col-sm-2 control-label">P/N：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtqcy01" name="TC_QCY01" placeholder="P/N" value="@Model.qcy.TC_QCY01">
+            </div>
+            <label for="txtqcy02" class="col-sm-2 control-label">产品名称：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled id="txtqcy02" name="TC_QCY02" placeholder="产品名称" value="@Model.qcy.TC_QCY02">
+            </div>
+            <div class="col-sm-1">
+                @if (Model.qcy.TC_QCY12 == 2)
+                {                
+                     <img src="@Url.Content("~/images/checked.png")" alt="核" class="img-thumbnail">
+                }
+            </div>
+        </div>
+        <fieldset disabled>
+            <div class="form-group">
+                <label for="txtqcy03" class="col-sm-2 control-label">客户：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtqcy03" name="TC_QCY03" placeholder="客户" value="@Model.qcy.TC_QCY03">
+                </div>
+                <label for="txtqcy04" class="col-sm-2 control-label">模组编号:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtqcy04" name="TC_QCY04" placeholder="模组编号" value="@Model.qcy.TC_QCY04">
+                </div>
+                <label for="txtqcy05" class="col-sm-2 control-label">出货目的地:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtqcy05" name="TC_QCY05" placeholder="出货目的地" value="@Model.qcy.TC_QCY05">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txtqcy06" class="col-sm-2 control-label">马达序列号：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtqcy06" name="TC_QCY06" placeholder="马达序列号" value="@Model.qcy.TC_QCY06">
+                </div>
+                <label for="txtqcy07" class="col-sm-2 control-label">马达零件号:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtqcy07" name="TC_QCY07" placeholder="马达零件号" value="@Model.qcy.TC_QCY07">
+                </div>
+                <label for="txtqcy17" class="col-sm-2 control-label">马达生产日期：</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        @*@if (Model.qcy.TC_QCY08 == null)
+                        {
+                            <input type="text" class="form-control" id="txtqcy08" name="TC_QCY08" placeholder="马达生产日期" value="" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})">
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" id="txtqcy08" name="TC_QCY08" placeholder="马达生产日期" value="@Convert.ToDateTime(@Model.qcy.TC_QCY08).ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})">
+                        }
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>*@
+                        <input type="text" class="form-control" id="txtqcy17" name="TC_QCY17" placeholder="马达生产日期" value="@Model.qcy.TC_QCY17">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-4">
+                <button type="button" class="btn btn-default" id="btnQuery">查询</button>
+                @*<button type="submit" class="btn btn-default">添加</button>
+                    <button type="button" class="btn btn-default" id="btnEnter">重置检查列表</button>*@
+            </div>
+
+            <div class="col-sm-2 btn-warning">
+                @Model.message
+            </div>
+        </div>
+    }
+
+
+    <!--分割线-->
+    @*<div class="divider"></div>*@
+
+    <!--table-->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="simple-table" class="table  table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="detail-col">序号</th>
+                        <th colspan="2" style="width:65%">检查项目</th>
+                        <th colspan="2" class="center">检测结果</th>
+                        <th colspan="2" class="center">复测结果</th>
+                        <th colspan="2">备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MyTiptop.OraCore.TC_QCZ_FILE row in Model.qczlist)
+                    {
+                        if (row.TC_QCZ06 == 0)
+                        {
+                        <!--父节点-->
+                            <tr>
+                                <td class="center">
+                                    <div class="action-buttons">
+                                        <strong>@row.TC_QCZ07</strong>
+                                    </div>
+                                </td>
+
+                                <td colspan="8">
+                                    @row.TC_QCZ02
+                                </td>
+                                @*<td colspan="6"></td>*@
+                                
+                            </tr>
+                        }
+                        else
+                        {
+                        <!--子节点-->
+                            <tr>
+                                <td class="center">
+                                    @if (row.TC_QCZ09 == 1)
+                                    {
+                                        <i class="ace-icon glyphicon glyphicon-star" style="color:coral;"></i>
+                                    }
+                                </td>
+                                <td class="center">
+                                    <div class="action-buttons">
+                                        @{
+                                            int showNumber = row.TC_QCZ05 - row.TC_QCZ06;
+                                        }
+                                        <strong>@showNumber.ToString()</strong><!--序号-->
+                                    </div>
+                                </td>
+                                <td>
+                                    @row.TC_QCZ02
+                                </td>
+                                <!-- 初检状况 -->
+                                <td>
+                                    <div class="radio">
+                                        <label>
+                                            @if (row.TC_QCZ03 != null && row.TC_QCZ03 == "Y")
+                                            {
+                                                <input type="radio" name="cradio@{@row.TC_QCZ05}"  disabled="disabled" value="Y"  checked />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="cradio@{@row.TC_QCZ05}"  disabled="disabled" value="Y"  />
+                                            }
+                                            OK
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <label>
+                                            @if (row.TC_QCZ03 != null && row.TC_QCZ03 == "N")
+                                            {
+                                                <input type="radio" name="cradio@{@row.TC_QCZ05}"  disabled="disabled" value="N"  checked />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="cradio@{@row.TC_QCZ05}"  disabled="disabled" value="N"  />
+                                            }
+                                            NG
+                                        </label>
+                                    </div>
+                                </td>
+                                <!-- 复检状况 -->
+                                <td>
+                                    <div class="radio">
+                                        <label>
+                                            @if (row.TC_QCZ08 != null && row.TC_QCZ08 == "Y")
+                                            {
+                                                <input type="radio" name="radio@{@row.TC_QCZ05}"  value="Y" onclick="checking('@row.TC_QCZ01','@row.TC_QCZ05','Y')" checked />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="radio@{@row.TC_QCZ05}"  value="Y" onclick="checking('@row.TC_QCZ01','@row.TC_QCZ05','Y')" />
+                                            }
+                                            OK
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <label>
+                                            @if (row.TC_QCZ08 != null && row.TC_QCZ08 == "N")
+                                            {
+                                                <input type="radio" name="radio@{@row.TC_QCZ05}" value="N" onclick="checking('@row.TC_QCZ01','@row.TC_QCZ05','N')" checked />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="radio@{@row.TC_QCZ05}" value="N" onclick="checking('@row.TC_QCZ01','@row.TC_QCZ05','N')" />
+                                            }
+                                            NG
+                                        </label>
+                                    </div>
+                                </td>
+
+                                <td colspan="2"><input type="text" class="form-control" id="txtfix@{@row.TC_QCZ05}" placeholder="备注" value="@row.TC_QCZ04" onkeyup="addfix('@row.TC_QCZ01','@row.TC_QCZ05')"></td>
+                            </tr>
+    }
+}
+                </tbody>
+            </table>
+        </div><!-- /.span -->
+    </div><!-- /.row -->
+
+</body>
+</html>
+
+

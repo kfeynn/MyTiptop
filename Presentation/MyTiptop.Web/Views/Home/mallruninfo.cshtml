@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    
+    <title></title>
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")" /><!-- Url.Content 路径取绝对路径 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css")" />
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/fonts.googleapis.com.css")" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace.min.css")" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-part2.min.css")" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-skins.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-rtl.min.css")" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="@Url.Content("~/Content/assets/js/ace-extra.min.js")"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="@Url.Content("~/Content/assets/js/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/respond.min.js")"></script>
+    <![endif]-->
+
+    <!--------------------------------------------- basic scripts -------------------------------------------->
+    <!--[if !IE]> -->
+    <script src="@Url.Content("~/Content/assets/js/jquery-2.1.4.min.js")"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/Content/assets/js/jquery.mobile.custom.min.js")'>"+"<"+"/script>");
+    </script>
+    <script src="@Url.Content("~/Content/assets/js/bootstrap.min.js")"></script>
+
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+      <script src="@Url.Content("~/Content/assets/js/excanvas.min.js")"></script>
+    <![endif]-->
+    <!--------------------------------------------- basic scripts end ----------------------------------------->
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+    @*<style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            /*height: 100%;*/
+            overflow: hidden;
+        }
+    </style>*@
+
+
+    <style type="text/css">
+        html, body {
+            background-color:white;
+        }
+    </style>
+
+    <!-- 每隔300秒刷新一次页面 -->
+    <meta http-equiv="refresh" content="300">
+
+</head>
+<body  >
+
+
+    <div class="page-header">
+        <h1>
+            欢迎
+        </h1>
+    </div><!-- /.page-header -->
+
+    <div>此页面自刷新,300秒刷新一次。用以保持网站状态。不让系统自动回收资源，使得第一次访问不变慢。</div>
+
+
+    <!-- css js 文件内 不能使用 Url.Content .使用相对目录 ，前台使用 ../  后台使用 ../../  即可达到 虚拟目录下的根目录 -->
+
+
+
+</body>
+</html>
+
+

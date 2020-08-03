@@ -1,0 +1,94 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.SortListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>类型列表</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+</head>
+<body>
+    <h1 class="rightH1">
+        基础数据 &gt;&gt; 类型列表
+        <div class="right">
+            <a href="@Url.Action("sortadd")" class="menuBT"><img src="../../admin_mall/images/add.jpg" />添加</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm("sortlist", "base"))
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;名称：
+                        </td>
+                        <td width="110">
+                            @Html.TextBox("sortname", Model.SortName, new { height = "18" })
+                        </td>
+                        <td />                         
+                        <td width="110" />
+                        <td /> 
+                        <td width="130" /> 
+                        <td /> 
+                        <td width="130" /> 
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dataList">
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="140">性质名称</th>
+                        <th align="left">备注</th>
+                        <th width="80">编辑</th>
+                        <th align="left">删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MyTiptop.Core.Base_Sort row in Model.List)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@row.SortName</td>
+                            <td>@row.Remark</td>
+                            <td>@Html.ActionLink("[编辑]", "sortedit", new { sid = row.id }, new { @class = "editOperate" })</td>
+                            <td> 
+                                @Html.ActionLink("[删除]", "sortdelete", new { sid = row.id }, new { @class = "editOperate", onclick = "if(!confirm('您确认要删除该内容吗?')) return false;" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div >
+
+        <div class="dataListEdit">
+            <div class="page">
+                @Html.MallAdminPager(Model.PageModel)
+            </div>
+        </div>
+    }
+
+@Html.Partial("_footer")
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>

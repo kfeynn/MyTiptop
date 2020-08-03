@@ -1,0 +1,125 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.RoleAuthorizationViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色授权</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+</head>
+<body>
+    <h1 class="rightH1">
+        角色管理 &gt;&gt; 角色授权
+        <div class="right">
+            <a href="@ViewBag.referer" class="menuBT"><img src="../../admin_mall/images/goback.jpg" />返回列表</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm())
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;角色名：
+                        </td>
+                        <td width="110">
+                            @Html.TextBox("roleName", Model.role.RoleName, new { height = "18" })
+
+                            @Html.Hidden("rid", @Model.role.RoleId)
+                        </td>
+                        <td>
+                        </td>
+                        <td width="110">
+                        </td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div  id="categoryTree">
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="30"></th>
+                        <th width="40" align="center"><input type="checkbox" id="allSelect" /></th>
+                        <th width="150">功能权限</th>
+                        <th align="left">功能权限名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow row in Model.FuncList.Rows)
+                    {
+                        if (row["FuncParent"].ToString().Length <= 2)
+                        {
+                              <tr id="@row["funccode"]">
+                                <th>
+                                    <span class="open" onclick="categoryTree(this,1)"></span>
+                                </th>
+                                <td align="center">
+                                @if (row["checked"].ToString() == "1")
+                                {
+                                    <input type="checkbox" value="@row["funccode"]" checked="checked" class="fcheckbox"  selectItem="true" name="pmIdList" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" value="@row["funccode"]"  class="fcheckbox"   selectItem="true" name="pmIdList" />
+                                }
+                                </td>
+                                <td>@row["funccode"]</td>
+                                <td>@row["funcname"]</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr style="display:none; background-color:gainsboro" name="@row["FuncParent"]">
+                                <td></td>
+                                <td align="center">
+                                    @if (row["checked"].ToString() == "1")
+                                    {
+                                        <input type="checkbox" value="@row["funccode"]" checked="checked" selectItem="true" name="pmIdList" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" value="@row["funccode"]" selectItem="true" name="pmIdList" />
+                                    }
+                                </td>
+                                <td>@row["funccode"]</td>
+                                <td>@row["funcname"]</td>
+                             </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div >
+        <div class="dataListEdit">
+            <a href="#" delUrl="@Url.Action("AuthorizationChange")" class="batch change">确   认</a> @Model.Message
+            <div class="page">
+            </div>
+        </div>
+    }
+
+    @*页脚样式*@
+    @*@Html.Partial("_footer")*@
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>

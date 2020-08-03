@@ -1,0 +1,111 @@
+﻿@model MyTiptop.Web.Models.EquipmentViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>列表</title>
+    <link type="text/css" rel="stylesheet" href="../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../admin_mall/scripts/tabhelp.js"></script>
+    <script type="text/javascript" src="../components/my97datepicker/WdatePicker.js"></script>
+    @* 智能提示Text *@
+    @*<link type="text/css" rel="stylesheet" href="admin_mall/scripts/jqueryui/jquery-ui.min.css" />
+    <script src="admin_mall/scripts/jqueryui/jquery-ui.min.js"></script>
+    <script src="admin_mall/scripts/autocomplete.js"></script>*@
+</head>
+<body>
+    <h1 class="rightH1" >
+        一览表 &gt;&gt; 列表
+        <div class="right">
+            
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm())
+    {
+        <div class="dataListSearch">
+            @*<table height="32" >
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="/admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;起始日期：@Html.CalendarFor(x => Model.CheckDateFrom)
+                        </td>
+                        <td>&nbsp;截止日期：@Html.CalendarFor(x => Model.CheckDateTo)
+                         </td>
+                        <td>&nbsp;品种：@Html.TextBox("prdtCode", Model.PrdtCode, new { height = "18" })</td>                         
+                        <td width="110" />
+                        <td /> 
+                        <td width="130" /> 
+                        <td /> 
+                        <td width="130" /> 
+                        <td></td>
+                        <td width="130"></td>
+                        <td>
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="/admin_mall/images/s.jpg" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>*@
+        </div>
+        <div class="dataList"  >
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th align="left">编号</th>
+                        <th align="left">类型</th>
+                        <th align="left">IP</th>
+                        <th align="left">存放地址</th>
+                        <th align="left">部门</th>
+                        <th align="left">用户</th>
+                        <th align="left">状态</th>
+                        <th align="left">品牌</th>
+                        <th align="left">型号</th>
+                        <th align="left">备注</th>
+                        <th align="left">录入员</th>
+                        <th align="left">更新日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MyTiptop.Core.Equipment row in Model.List)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@row.Ecode </td>
+                            <td>@MyTiptop.Data.BaseSorts.GetSortName(row.SortID)</td> 
+                            <td>@row.IP</td>
+                            <td>@row.Place</td>
+                            <td>@MyTiptop.Data.BaseDepts.GetDeptName(row.DeptID)</td>
+                            <td>@row.UserName</td>
+                            <td>@MyTiptop.Data.BaseStatuss.GetStatusName(row.StatusID)</td>
+                            <td>@row.Brand</td>
+                            <td>@row.Version</td>
+                            <td>@row.Remark</td>
+                            <td>@MyTiptop.Data.Users.GetUserCNameByUserID(row.InputUserID)</td>
+                            <td>@Html.CalendarLab("", row.UpdateTime)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table> 
+        </div >
+        <div class="dataListEdit" style="width:100%">
+            <div class="page">
+                @Html.MallAdminPager(Model.PageModel)
+            </div>
+        </div>
+    }
+    @*<div  style="width:100%">
+        @Html.Partial("_footer")
+    </div>*@
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+</body>
+</html>

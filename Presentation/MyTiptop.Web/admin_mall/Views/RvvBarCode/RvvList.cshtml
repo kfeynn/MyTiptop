@@ -1,0 +1,231 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.RvvListViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>列表</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.qrcode.min.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            //导出到Excel
+            $("#btnOutExcel").click(function () {
+                ////参数赋值
+                //$("#outExcel").val("1");
+                ////提交
+                //doPostBack("");
+                //return false;
+
+                //调用导出方法
+                var h = "../../malladmin/RvvBarCode/ExportToPdf";
+                alert(h);
+
+                window.location.href = h;
+
+            });
+
+        });
+
+
+
+
+    </script> 
+
+    <script type="text/javascript">
+
+
+        jQuery(function () {
+
+            var str = "{\"仓位\":\"2109\",\"储位\":\"C3C01100\"}";
+
+            var str1 = "{\"rvv32\":\"2109\",\"rvv33\":\"C3C01100\"}";
+
+            str = utf16to8(str1);
+
+            jQuery('#qrcode').qrcode(str);
+
+            function toCode(dom,str)
+            {
+                jQuery('#qrcode').qrcode(str);
+            }
+
+        });
+
+
+
+        function utf16to8(str) {
+            var out, i, len, c;
+            out = "";
+            len = str.length;
+            for (i = 0; i < len; i++) {
+                c = str.charCodeAt(i);
+                if ((c >= 0x0001) && (c <= 0x007F)) {
+                    out += str.charAt(i);
+                } else if (c > 0x07FF) {
+                    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                    out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+                } else {
+                    out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+                }
+            }
+            return out;
+        }
+
+        //在生成时候会去调用formatEwm的函数,为每一个二维码图片添加一个唯一标识
+        function formatEwm(val, row, index) {
+            if (val != null && val != "" && val != 'undenfine') {
+                var oi = 'output' + index;
+                return '<div id="' + oi + '"></div>';
+            }
+        }
+
+        //在写一个使用Qrcode生成二维码的函数:
+        //content为要生成的二维码内容   output+index为上面函数为每一行要生成二维码的div的ID
+        function getEwm(index, content) {
+            var trs = $("#" + index).qrcode({
+                width: 100,
+                height: 100,
+                render: "canvas", //设置渲染方式 table canvas
+                text: content,
+                background: "#ffffff"//, //背景颜色 
+                //foreground: "#999900" //前景颜色 
+            })
+        }
+
+
+        //在表格初始化完成后调用生成二维码的函数:
+        $(function () {
+            //1.
+            //$('#dg').datagrid({
+            //    onLoadSuccess: function (data) {
+            //        var rows = $('#dg').datagrid('getRows');
+            //        for (var i = 0; i < rows.length; i++) {
+            //            var temp = rows[i]['upfile']; //获取指定列  
+            //            getEwm(i, temp);
+            //        }
+            //    }
+            //});
+
+            //2.
+
+            var trList = $("#history_income_list").children("tr");
+            for (var i = 0; i < trList.length; i++) {
+                var tdArr = trList.eq(i).find("td");
+
+                var divid = tdArr.eq(0).text(); //divId
+                var qrcodeInfo = tdArr.eq(3).text(); //二维码文本
+
+                getEwm(divid, qrcodeInfo); //生成二维码
+
+                //显示二维码
+
+                //alert($("#" + divid).html());
+
+
+            }
+
+
+
+        });
+ 
+ 
+
+
+
+
+
+    </script>
+
+</head>
+<body>
+    <h1 class="rightH1">
+        基础数据 &gt;&gt; 部门列表
+        <div class="right">
+            <a href="@Url.Action("deptadd")" class="menuBT"><img src="../../admin_mall/images/add.jpg" />添加</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    @using (Html.BeginForm())
+    {
+        <div class="dataListSearch">
+            <table height="32">
+                <tbody>
+                    <tr>
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;部门名称：
+                        </td>
+                        <td width="110">
+                            @*@Html.TextBox("deptname", Model.DeptName, new { height = "18" })*@
+                        </td>
+                        <td />
+                        <td width="110" />
+                        <td />
+                        <td width="130" />
+                        <td />
+                        <td width="130" />
+                        <td></td>
+                        <td width="130"></td>
+                        <td>全部打印到pdf
+                            <input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" />
+                            <input id="btnOutExcel" type="button" class="searchBut" value="导出" /><input type="hidden" id="outExcel" name="outExcel" value="0" /> <span id="loading" hidden="hidden" style="vertical-align:central"><img src="../../admin_mall/images/loading.gif" /></span> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dataList">
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="140">部门名称</th>
+                        <th align="left">备注</th>
+                        <th width="80">qrcode</th>
+                        <th align="left">删除</th>
+                        <th align="left">删除</th>
+                    </tr>
+                </thead>
+                <tbody id="history_income_list">
+                    @foreach (MyTiptop.Core.rvvList row in Model.List)
+                    {
+                        <tr>
+                            <td>output@{@row.id}</td>
+                            <td>@row.rvv32</td>
+                            <td>@row.rvv33</td>
+                            <td>@row.qrcode</td>
+                            <td><div id="output@{@row.id}"></div></td>
+                            <td><img src="@row.qrcode2" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div >
+
+        <div class="dataListEdit">
+            <div class="page">
+                @Html.MallAdminPager(Model.PageModel)
+            </div>
+        </div>
+    }
+
+@Html.Partial("_footer")
+
+</body>
+</html>
+    </script>

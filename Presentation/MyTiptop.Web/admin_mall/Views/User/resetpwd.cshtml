@@ -1,0 +1,75 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.ResetPwdViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>重置密码</title>
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />
+    @*<script type="text/javascript" src="../../admin_mall/scripts/jquery-3.1.1.min.js"></script>*@
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script>
+    <script src="../../admin_mall/scripts/jquery-3.1.1.intellisense.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.validate.extend.js"></script>
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //启用jquery表单验证
+            $("form:first").validate();
+
+            //$(".addBt").click(function () {
+            //    if (true) {
+            //        $("form:first").submit();
+            //        return false;
+            //    }
+            //    else {
+            //        //阻止页面再刷新
+            //        return false;
+            //    }
+            //})
+        })
+    </script>
+
+</head>
+
+<body>
+
+    <h1 class="rightH1">
+        用户管理 &gt;&gt; 重置密码
+        <div class="right">
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </h1>
+    <div class="findPassword box" style="height:500px; align-content:center">
+        <form name="resetPwd" action="" method="post" >
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th width="190"><em>*</em>新 密 码：</th>
+                    <td width="275"><input id="password" type="password" name="password" required   value="" class="text userName" /></td>
+                    <td>&nbsp;   </td>
+                </tr>
+                <tr>
+                    <th width="190"><em>*</em>确认密码：</th>
+                    <td width="275"><input type="password" name="confirmPwd" equalTo="#password" required  value="" class="text userName" /></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="right">&nbsp;</td>
+                    <td><input type="submit" value="提交" /> @Model.Message </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    @Html.Partial("_footer")
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+</body>
+</html>

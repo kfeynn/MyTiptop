@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="@{@WorkContext.SubPath}/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="@{@WorkContext.SubPath}/favicon.ico" type="image/x-icon" />
+
+    <title>后台管理页面</title>
+</head>
+<frameset rows="70,*" border="0" frameborder="0" framespacing="0">
+    <frame src="@Url.Action("navbar")" name="frameTop" scrolling="no" noresize="noresize" />
+    <frameset cols="150,*" border="0" frameborder="0" framespacing="0">
+        <frame src="@Url.Action("menu")" name="frameLeft" scrolling="auto" noresize="noresize" />
+        <frame src="@Url.Action("mallruninfo")" name="frameRight" noresize="noresize" />
+    </frameset>
+</frameset>
+<noframes></noframes>
+</html>

@@ -1,0 +1,569 @@
+﻿@model MyTiptop.Web.Models.ComplaintShowViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />  
+
+    <!--响应式设置，自动检测客户端设备-->
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <title>投诉</title>
+    @*<link rel="icon" href="@{@WorkContext.SubPath}/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="@{@WorkContext.SubPath}/favicon.ico" type="image/x-icon" />*@
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")" /><!-- Url.Content 路径取绝对路径 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css")" />
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/fonts.googleapis.com.css")" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/colorbox.min.css")" />
+   
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace.min.css")" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-part2.min.css")" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-skins.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-rtl.min.css")" />
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap/validator/css/bootstrapValidator.css")" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="@Url.Content("~/Content/assets/js/ace-extra.min.js")"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="@Url.Content("~/Content/assets/js/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/respond.min.js")"></script>
+    <![endif]-->
+    <!--------------------------------------------- basic scripts -------------------------------------------->
+
+
+
+    <!--[if !IE]> -->
+    <script src="@Url.Content("~/Content/assets/js/jquery-2.1.4.min.js")"></script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        if('ontouchstart' in document.documentElement) document.write("<script src='@Url.Content("~/Content/assets/js/jquery.mobile.custom.min.js")'>"+"<"+"/script>");
+    </script>
+    <script src="@Url.Content("~/Content/assets/js/bootstrap.min.js")"></script>
+
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+      <script src="@Url.Content("~/Content/assets/js/excanvas.min.js")"></script>
+    <![endif]-->
+    <!--------------------------------------------- basic scripts end ----------------------------------------->
+    <!--bootstrap 表单验证插件-->
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/bootstrapValidator.min.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/validator/js/language/zh_CN.js")"></script>
+
+ 
+
+    <script src="@Url.Content("~/Scripts/upload/fileinput.js")"></script>
+    <script src="@Url.Content("~/Scripts/upload/fileinput_locale_zh.js")"></script>
+
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/upload/fileinput.css")" />
+
+   
+
+    <style type="text/css">
+        html, body {
+            background-color: white;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        //表单提交操作
+        function doPostBack(action) {
+
+            var from = $("form:first");
+
+            //alert(from.get(0).action);
+
+            if (action != "") {
+                from.prop("action", action);
+            }
+            from.get(0).submit();
+        };
+
+
+        //删除附件图片
+        function DeleteAnnex(sid)
+        {
+            if(confirm("您确定删除吗？"))
+            {
+                //alert(sid);
+                $.ajax({
+                    dataType: "json",
+                    type: 'post',
+                    url: '@Url.Content("~/Security/deleteAnnexAjax")',
+                    data: {
+                        "sid": sid
+                    },
+                    //async: false, //取消异步
+                    success: function (data, status) {
+                        if (data.content == "1") {
+                            //3.刷新显示图片。
+                            doPostBack("");
+                            return false;
+                        }
+                    },
+                    error: function (data, status) {
+                        alert('ajax deleteAnnexAjax Error');
+                    }
+                });
+            }
+        }
+        function Reset()
+        {
+            //重定向到自己
+            window.location.href='@Url.Content("~/Security/ComplaintShow?type=")@Model.type';
+        }
+        //确认发送邮件 
+        function SendEmail(sid,type) 
+        { 
+            //ajax 调用后台发送，需要检查有无附件。 
+            $.ajax({
+                dataType: "json",
+                type: 'post',
+                url: '@Url.Content("~/Security/sendEmailAjax")',
+                data: {
+                    "sid": sid,
+                    "type":type
+                },
+                //async: false, //取消异步
+                success: function (data, status) {
+                    if (data.content == "1") {
+                        //提示发送完成
+                        alert("您的意见已成功提交！感谢您对我们工作的监督和支持！待相关人员核实后会及时联系您！");
+                        //清空页面
+                        Reset();
+                    }
+                },
+                error: function (data, status) {
+                    alert('ajax deleteAnnexAjax Error');
+                }
+            });
+
+        }
+        $(function () {
+            var sid = $("#sid").val();
+            //额外参数
+            var formdata = {
+                "sid": sid
+            };
+            $("#input-ke-2").fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: "@Url.Content("~/Security/UpLoad")", //上传的地址
+                uploadAsync: true, //默认异步上传
+                allowedFileExtensions: ['jpg','jpeg', 'gif', 'png'],//接收的文件后缀
+                showUpload: true, //是否显示上传按钮
+                showCaption: false,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                //dropZoneEnabled: false,//是否显示拖拽区域
+                //minImageWidth: 50, //图片的最小宽度
+                //minImageHeight: 50,//图片的最小高度
+                //maxImageWidth: 1000,//图片的最大宽度
+                //maxImageHeight: 1000,//图片的最大高度
+                maxFileSize: 10240,//单位为kb，如果为0表示不限制文件大小
+                uploadLabel: "上传图片",                         // 上传按钮内容
+                browseLabel: '选择图片',                            // 浏览按钮内容
+                minFileCount: 0,
+                maxFileCount: 10,
+                enctype: 'multipart/form-data',
+                validateInitialCount: true,
+                //previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                layoutTemplates: {
+                    // actionDelete:'', //去除上传预览的缩略图中的删除图标
+                    actionUpload: '',//去除上传预览缩略图中的上传图片；
+                    actionZoom: ''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                },
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                //browseOnZoneClick: true,   //单击上传 ,无效
+                //dropZoneTitle: "上传图片640 * 350分辨率效果更好",
+                // 这个配置就是解决办法了,初始化时限制图片大小
+                previewSettings: {
+                    image: {width: "160px",height:"160px"},
+                },
+                //uploadExtraData: function (previewId, index) {
+                //    //向后台传递id作为额外参数，是后台可以根据id修改对应的图片地址。
+                //    var obj = {};
+                //    obj.id = fishId;
+                //    return obj;
+                //}
+                uploadExtraData: function (previewId, index) {   //额外参数 返回json数组
+                    return formdata
+                }
+            });
+            // 上传成功回调
+            $("#input-ke-2").on("filebatchuploadcomplete", function () {
+                //alert("上传附件成功！");
+                //1.清空fileinput 框。
+                //$(".fileinput-remove-button").click();
+                //3.刷新显示图片。
+                //alert('dopostback');
+
+                doPostBack("");
+                return false;
+
+                //2.关闭图片上传对话框。
+                //$('#myModal').modal('hide');  //关闭
+            });
+            // 上传失败回调
+            $('#input-ke-2').on('fileerror', function (event, data, msg) {
+                alert("上传附件失败！");
+            });
+        });
+   </script>
+</head>
+
+<body>
+    <div class="page-header">
+        @if (@Model.type == "1")
+        {
+            <h1>食堂投诉</h1>
+        }
+        else if (@Model.type == "2")
+        {
+            <h1>宿舍投诉</h1>
+        }
+        else if (@Model.type == "3")
+        {
+            <h1>清洁投诉</h1>
+
+        }
+        else if (@Model.type == "4")
+        {
+            <h1>工程维修投诉</h1>
+        }
+        else if (@Model.type == "5")
+        {
+            <h1>车队投诉</h1>
+        }
+        else if (@Model.type == "6")
+        {
+            <h1>其他投诉</h1>
+        }
+        else if (@Model.type == "7")
+        {
+            <h1>违规违纪投诉</h1>
+        }
+        else if (@Model.type == "8")
+        {
+            <h1>诚信廉洁投诉</h1>
+        }
+    </div><!-- /.page-header -->
+    <div class="main-container">
+@using (Html.BeginForm("ComplaintShow", "Security", FormMethod.Post, new { id = "form1", name = "form1", @class = "form-horizontal", autocomplete = "off" }))
+{
+              <div class="col-sm-12">
+                  <!-- PAGE CONTENT BEGINS -->
+
+                  @if (@Model.type == "1")
+                  {
+                    <div class="form-group">
+                        <div class="col-sm-12" style="width:100%;">
+                            <span style="align-content:center"><small>投诉电话：后勤主管何小均13421812812/68888；物业后勤部经理施渊13902468764/668764</small></span>
+                        </div>
+                    </div>
+                  }
+                  else
+                  {
+                    <div class="form-group">
+                        <div class="col-sm-12" style="width:100%;">
+                            <span style="align-content:center"><small></small></span>
+                        </div>
+                    </div>
+                  }
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-2" for="form-field-1">姓名</label>
+                        <div class="col-sm-10 pull-right" style="width:77%;">
+                            <input type="text" class="form-control" name='data01' value="@Model.m.data01" placeholder="请输入用户名" />
+                            <input hidden="hidden" id="sid" name="sid" value="@Model.m.id" />
+                            <input hidden="hidden" id="type" name="type" value="@Model.type" />
+                        </div>
+                  </div>
+                  <div class="space-4"></div>
+                  <div class="form-group">
+                      <label class="control-label col-sm-2" for="form-field-1">工号</label>
+                      <div class="col-sm-10 pull-right" style="width:77%;">
+                          <input type="text" class="form-control" name='data02' value="@Model.m.data02" placeholder="请输入工号" />
+                      </div>
+                  </div>
+                  <div class="space-4"></div>
+
+                  <div class="form-group">
+                      <label class="control-label col-sm-2" for="form-field-1">联系方式</label>
+                      <div class="col-sm-10 pull-right" style="width:77%;">
+                          <input type="text" class="form-control" name='data03' value="@Model.m.data03" placeholder="请输入联系方式" />
+                      </div>
+                  </div>
+                  <div class="space-4"></div>
+
+                  <div class="form-group">
+                      <label class="control-label col-sm-2" for="form-field-1">投诉地点</label>
+                      <div class="col-sm-10 pull-right" style="width:77%;">
+                          <input type="text" class="form-control" name='data04' value="@Model.m.data04" placeholder="请输入投诉问题发生地点" required="required"  />
+                      </div>
+                  </div>
+                  <div class="space-4"></div>
+
+                  <div class="form-group">
+                      <label class="control-label col-sm-2" for="form-field-1">投诉内容</label>
+                      <div class="col-sm-10 pull-right" style="width:77%;">
+                          <input type="text" class="form-control" name='data05' value="@Model.m.data05" placeholder="请输入投诉内容" required="required" />
+                      </div>
+                  </div>
+                  <div class="space-4"></div>
+
+                  @if (@Model.type == "1")
+                  {
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="form-field-1"></label>
+                            <div class="col-sm-10 pull-right" style="width:77%;color:fuchsia" >
+                                投诉问题点请先和食堂人员提前确认
+                            </div>
+                        </div>
+                        <div class="space-4"></div>
+                  }
+
+
+
+                  <!-- 打开模态框添加图片！！！！ 表单有值才显示。 -->
+                  @if (Model.flag != "0")
+                  {
+                      <div class="form-group">
+                          <label class="control-label col-sm-2" for="form-field-1"></label>
+                          <div class="col-sm-10 pull-right" style="width:77%;">
+                              <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                  上传图片
+                              </button>
+                          </div>
+                      </div>
+                      <div class="space-4"></div>
+                  }
+
+                  <!-- 提交后转向显示页面！！！！ -->
+
+                  <div class="form-group">
+                      <label class="control-label col-sm-2" for="form-field-1"></label>
+                      <div class="col-sm-10 pull-right" style="width:77%;">
+                          <!-- 显示已经上传的图片！！！！ -->
+                          @*<img src='@Url.Content(@"~/\upload\201905\29\Desert.jpg")' width="461" height="355" class="left" />*@
+
+                          <!-- PAGE CONTENT BEGINS -->
+                          <div>
+                              <ul class="ace-thumbnails clearfix">
+                                  @foreach (MyTiptop.Core.QA_Complaint_annex annex in Model.annexList)
+                                  {
+                                      <li>
+                                          <a href="@Url.Content("~/")@annex.data03" data-rel="colorbox">
+                                              <img width="150" height="150" alt="150x150" src="@Url.Content("~/")@annex.data03" />
+                                              <div class="text">
+                                                  <div class="inner">@annex.data02</div>
+                                              </div>
+                                          </a>
+
+                                          <div class="tools tools-bottom">
+                                             <!-- 删除动作 ajax操作 -->
+                                              <a href="#" onclick="DeleteAnnex(@annex.id)">
+                                                  <i class="ace-icon fa fa-times red"></i>
+                                              </a>
+                                          </div>
+                                      </li>
+                                  }
+                              </ul>
+                          </div><!-- PAGE CONTENT ENDS -->
+                      </div>
+                  </div>
+
+                  <div class="clearfix form-actions">
+                      <div class="col-md-offset-3 col-md-9">
+                          <button class="btn btn-info" type="submit" id="saveForm">
+                              <i class="ace-icon fa fa-check "></i>
+                              保存表单
+                          </button>
+                          &nbsp; 
+                        @if (Model.flag == "2")
+                        { 
+                          <button class="btn btn-warning" type="button" onclick="SendEmail(@Model.m.id,@Model.type)">
+                              <i class="ace-icon fa fa-check "></i>
+                              确认提交
+                          </button>
+                        }
+                          <button class="btn" type="button" onclick="Reset()"> 
+                              <i class="ace-icon fa fa-undo bigger-50"></i>
+                              重新填写
+                          </button>
+                      </div>
+                  </div>
+                  @*<div class="hr hr-24"></div>*@
+              </div>
+}
+          @*</form>*@
+    </div><!-- /.main-container -->
+
+
+    <!-- 模态框 异步上传图片（多文件） -->
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <span id="ititle">图片上传(<small>若图片较多较大请耐心等待...</small>)</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    @*<span id="icontent">提示信息，休息</span> <span id="timer">5</span> 秒*@
+                    <input id="input-ke-2" name="input-ke-2[]" type="file"   multiple=multiple
+                           data-show-upload="true" data-show-caption="true"  class="file-loading" data-msg-placeholder="Select {files} for upload..." />
+                    @*<input id="txt_file" name="txt_file" type="file" class="file-loading" data-show-upload="false" data-show-caption="true" />*@
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+
+    <!-- page specific plugin scripts-->
+    <script src="@Url.Content("~/Content/assets/js/jquery.colorbox.min.js")"></script>
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+			jQuery(function($) {
+	            var $overflow = '';
+	            var colorbox_params = {
+		            rel: 'colorbox',
+		            reposition:true,
+		            scalePhotos:true,
+		            scrolling:false,
+		            previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+		            next:'<i class="ace-icon fa fa-arrow-right"></i>',
+		            close:'&times;',
+		            current:'{current} of {total}',
+		            maxWidth:'100%',
+		            maxHeight:'100%',
+		            onOpen:function(){
+			            $overflow = document.body.style.overflow;
+			            document.body.style.overflow = 'hidden';
+		            },
+		            onClosed:function(){
+			            document.body.style.overflow = $overflow;
+		            },
+		            onComplete:function(){
+			            $.colorbox.resize();
+		            }
+	            };
+
+	            $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+	            $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");//let's add a custom loading icon
+
+
+	            $(document).one('ajaxloadstart.page', function(e) {
+		            $('#colorbox, #cboxOverlay').remove();
+               });
+            })
+    </script>
+
+
+
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+    <script type="text/javascript">
+
+        $(function(){
+           // $('#form1').bootstrapValidator({
+            $('#form1').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    data01: {
+                        message: '姓名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '不能为空'
+                            },
+                            stringLength: {  //长度限制
+                                min: 2,
+                                //max: 18,
+                                message: '必须在2位以上'
+                            }
+                        }
+                    },
+                    data03: {
+                        message: '联系方式验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '联系方式不能为空'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            //// 提交时验证
+            //$('#saveForm').on('click', function () {
+            //    var data = $("#form1").data('bootstrapValidator');
+            //    doPostBack("");
+            //    return false;
+            //})
+
+        });
+
+        $(function () {
+            var sid = $("#sid").val();
+            if (sid != "" && sid!="0")
+            {
+                //backdrop：'static' 指的是点击背景空白处不被关闭；
+                //keyboard:false指的是触发键盘esc事件时不关闭。
+                var f = @Model.flag;
+                if(f == "1")
+                {
+                    $("#myModal").modal({ backdrop: 'static', keyboard: false });  //手动开启
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,119 @@
+﻿@model MyTiptop.Web.MallAdmin.Models.MySfmReportViewModel 
+@{ 
+    Layout = null; 
+} 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <title>列表</title> 
+    <link type="text/css" rel="stylesheet" href="../../admin_mall/css/site.css" />  
+    <script type="text/javascript" src="../../admin_mall/scripts/jquery.js"></script> 
+    <script type="text/javascript" src="../../admin_mall/scripts/showlist.js"></script> 
+    <script type="text/javascript" src="../../admin_mall/scripts/tabhelp.js"></script> 
+    <script type="text/javascript" src="../../components/my97datepicker/WdatePicker.js"></script>
+
+    <script type="text/javascript" >
+
+        function ExportExcel() {
+
+            //查询条件
+            var t = $("#t").val();
+
+            //alert(t);
+
+            //调用导出方法
+            window.location.href = "../../malladmin/BarCode/Export?t=" + t;
+        }
+
+    </script>
+</head> 
+<body> 
+    <h1 class="rightH1"> 
+        生产计划 &gt;&gt; 生产日报
+        <div class="right"> 
+            <a href="@Url.Action("deptadd")" class="menuBT"><img src="../../admin_mall/images/add.jpg" />添加</a> 
+            <div class="clear"></div> 
+        </div> 
+        <div class="clear"></div> 
+    </h1> 
+    @using (Html.BeginForm()) 
+    { 
+        <div class="dataListSearch"> 
+            <table height="32"> 
+                <tbody> 
+                    <tr> 
+                        <td width="35"><img id="searchImg" src="../../admin_mall/images/search1.gif" /></td> 
+                        <td> 
+                            &nbsp;&nbsp;&nbsp;日期：
+                        </td> 
+                        <td width="110"> 
+                            @*@Html.TextBox("deptname", Model.DeptName, new { height = "18" })*@
+                            @Html.CalendarFor(m => Model.t)
+                        </td> 
+                        <td /> 
+                        <td width="110" /> 
+                        <td />  
+                        <td width="130" />  
+                        <td />  
+                        <td width="130" />  
+                        <td></td> 
+                        <td width="130"><input id="SearchUser" name="SearchUser" type="image" class="searchBut submit" src="../../admin_mall/images/s.jpg" /> </td> 
+                        <td> 
+                            <a class="mini-button" iconcls="icon-expand" onclick="ExportExcel()" plain="true">导出xlsx</a><span class="separator"></span>
+                        </td> 
+                    </tr> 
+                </tbody> 
+            </table> 
+        </div> 
+         
+        <div class="dataList"> 
+            <table   style="width:100%" >
+                <thead>
+                    <tr>
+                        <th width="10"></th>
+                        <th width="60">序号</th>
+                        <th align="left">线别</th>
+                        <th align="left">编码</th>
+                        <th align="left">名称</th>
+                        <th align="left">图号</th>
+                        <th align="left">用量</th>
+                        <th align="left">计划数量</th>
+                        <th align="left">实际备货数量</th>
+                        <th align="left">备注</th>
+                    </tr> 
+                </thead> 
+                <tbody> 
+                    @foreach (System.Data.DataRow row in Model.SFMInfo.Rows)
+                    { 
+                        <tr> 
+                            <td></td> 
+                            <td>@row[0]</td>
+                            <td>@row[1]</td>
+                            <td>@row[2]</td>
+                            <td>@row[3]</td>
+                            <td>@row[4]</td>
+                            <td>@row[5]</td>
+                            <td>@row[6]</td>
+                            <td>@row[7]</td>
+                            <td>@row[8]</td>
+                        </tr> 
+                    } 
+                </tbody> 
+            </table> 
+        </div> 
+        <div class="dataListEdit"> 
+            <div class="page"> 
+                @*@Html.MallAdminPager(Model.PageModel)*@
+            </div> 
+        </div> 
+    } 
+     
+@Html.Partial("_footer") 
+     
+    <!-- iframe 高度设置 -->
+    <script type="text/javascript" src="@Url.Content("~/admin_mall/scripts/home/iframe.js")"></script>
+
+
+</body> 
+</html> 
